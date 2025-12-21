@@ -11,19 +11,19 @@ BRANCH="${KIRO_BRANCH:-main}"
 TEMP_DIR=$(mktemp -d)
 TARGET_DIR=".kiro"
 
-echo "Installing Kiro configuration..."
+echo "🚀 Installing Kiro configuration..."
 echo ""
 
 # Check if git is installed
 if ! command -v git &> /dev/null; then
-  echo "ERROR: Git is not installed. Please install git first."
+  echo "❌ Git is not installed. Please install git first."
   exit 1
 fi
 
 # Clone repository
-echo "Downloading configuration from $REPO_URL..."
+echo "📦 Downloading configuration from $REPO_URL..."
 if ! git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$TEMP_DIR" 2>/dev/null; then
-  echo "ERROR: Failed to download. Please check:"
+  echo "❌ Failed to download. Please check:"
   echo "   - Repository URL: $REPO_URL"
   echo "   - Branch: $BRANCH"
   echo "   - Internet connection"
@@ -33,8 +33,8 @@ fi
 # Copy .kiro directory
 if [ -d "$TARGET_DIR" ]; then
   echo ""
-  echo "WARNING: .kiro directory already exists in current directory."
-  read -p "Overwrite? (y/N): " -n 1 -r
+  echo "⚠️  .kiro directory already exists in current directory."
+  read -p "Overwrite? (y/N): " -n 1 -r < /dev/tty
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Installation cancelled."
@@ -44,59 +44,59 @@ if [ -d "$TARGET_DIR" ]; then
   rm -rf "$TARGET_DIR"
 fi
 
-echo "Copying .kiro directory..."
+echo "📁 Copying .kiro directory..."
 cp -r "$TEMP_DIR/.kiro" "$TARGET_DIR"
-echo "SUCCESS: .kiro directory copied"
+echo "✅ .kiro directory copied"
 
 # Language selection
 echo ""
-echo "Language Configuration"
+echo "🌐 Language Configuration"
 echo ""
 
 # Chat language
-echo "[1] Agent Chat Language"
+echo "1️⃣  Agent Chat Language"
 echo "  What language should the agent use in chat?"
 echo "    1) English"
-echo "    2) Japanese"
-read -p "  Enter your choice (1 or 2) [default: 2]: " -n 1 -r CHAT_CHOICE
+echo "    2) 日本語 (Japanese)"
+read -p "  Enter your choice (1 or 2) [default: 2]: " -n 1 -r CHAT_CHOICE < /dev/tty
 echo ""
 case "$CHAT_CHOICE" in
   1) CHAT_LANG="English" ;;
   *) CHAT_LANG="Japanese" ;;
 esac
-echo "  Chat language: $CHAT_LANG"
+echo "  ✅ Chat language: $CHAT_LANG"
 echo ""
 
 # Documentation language
-echo "[2] Documentation Language"
+echo "2️⃣  Documentation Language"
 echo "  What language should be used for internal docs (steering, specs)?"
 echo "    1) English"
-echo "    2) Japanese"
-read -p "  Enter your choice (1 or 2) [default: 1]: " -n 1 -r DOC_CHOICE
+echo "    2) 日本語 (Japanese)"
+read -p "  Enter your choice (1 or 2) [default: 1]: " -n 1 -r DOC_CHOICE < /dev/tty
 echo ""
 case "$DOC_CHOICE" in
   2) DOC_LANG="Japanese" ;;
   *) DOC_LANG="English" ;;
 esac
-echo "  Documentation language: $DOC_LANG"
+echo "  ✅ Documentation language: $DOC_LANG"
 echo ""
 
 # Code comment language
-echo "[3] Code Comment Language"
+echo "3️⃣  Code Comment Language"
 echo "  What language should be used for code comments?"
 echo "    1) English"
-echo "    2) Japanese"
-read -p "  Enter your choice (1 or 2) [default: 1]: " -n 1 -r COMMENT_CHOICE
+echo "    2) 日本語 (Japanese)"
+read -p "  Enter your choice (1 or 2) [default: 1]: " -n 1 -r COMMENT_CHOICE < /dev/tty
 echo ""
 case "$COMMENT_CHOICE" in
   2) COMMENT_LANG="Japanese" ;;
   *) COMMENT_LANG="English" ;;
 esac
-echo "  Code comment language: $COMMENT_LANG"
+echo "  ✅ Code comment language: $COMMENT_LANG"
 echo ""
 
 # Generate language.md
-echo "Generating language configuration..."
+echo "📝 Generating language configuration..."
 
 cat > "$TARGET_DIR/steering/language.md" << EOF
 ---
@@ -193,33 +193,33 @@ Always use English for:
 - Examples: `project.md`, `tech.md`, `structure.md`
 EOF
 
-echo "SUCCESS: Language configuration complete"
+echo "✅ Language configuration complete"
 
 # Hosting platform selection
 echo ""
-echo "Hosting Platform"
+echo "☁️  Hosting Platform"
 echo "  Select your hosting platform:"
 echo "    1) AWS (Lambda, API Gateway, DynamoDB, S3, CloudFront)"
 echo "    2) Platform (Vercel, Render, Railway, Forge, etc.)"
-read -p "  Enter your choice (1 or 2) [default: 2]: " -n 1 -r HOSTING_CHOICE
+read -p "  Enter your choice (1 or 2) [default: 2]: " -n 1 -r HOSTING_CHOICE < /dev/tty
 echo ""
 
 case "$HOSTING_CHOICE" in
   1)
-    echo "  Setting up AWS structure..."
+    echo "  📝 Setting up AWS structure..."
     cp "$TARGET_DIR/steering-examples/common/structure-aws.md" "$TARGET_DIR/steering/structure.md"
-    echo "  SUCCESS: AWS structure template copied"
+    echo "  ✅ AWS structure template copied"
     ;;
   *)
-    echo "  Setting up default structure..."
+    echo "  📝 Setting up default structure..."
     cp "$TARGET_DIR/steering-examples/common/structure-default.md" "$TARGET_DIR/steering/structure.md"
-    echo "  SUCCESS: Default structure template copied"
+    echo "  ✅ Default structure template copied"
     ;;
 esac
 echo ""
 
 # Create placeholder project-specific files
-echo "Creating project-specific steering files..."
+echo "📝 Creating project-specific steering files..."
 
 if [ ! -f "$TARGET_DIR/steering/project.md" ]; then
   cat > "$TARGET_DIR/steering/project.md" << 'EOF'
@@ -243,7 +243,7 @@ Add your team conventions here.
 
 Add your workflow here.
 EOF
-  echo "  SUCCESS: project.md created"
+  echo "  ✅ project.md created"
 fi
 
 if [ ! -f "$TARGET_DIR/steering/tech.md" ]; then
@@ -268,31 +268,31 @@ List your technology stack here.
 
 Add development setup instructions here.
 EOF
-  echo "  SUCCESS: tech.md created"
+  echo "  ✅ tech.md created"
 fi
 
 echo ""
 
 # Copy Makefile
 echo ""
-echo "Setting up Makefile..."
+echo "📝 Setting up Makefile..."
 if [ -f "Makefile" ]; then
-  echo "WARNING: Makefile already exists. Skipping."
+  echo "⚠️  Makefile already exists. Skipping."
   echo "   See Makefile.example for reference"
 else
   cp "$TEMP_DIR/Makefile.example" "Makefile"
-  echo "SUCCESS: Makefile created from template"
+  echo "✅ Makefile created from template"
   echo "   Customize it for your project"
 fi
 
 # Copy .tool-versions
 echo ""
-echo "Setting up .tool-versions..."
+echo "🔧 Setting up .tool-versions..."
 if [ -f ".tool-versions" ]; then
-  echo "WARNING: .tool-versions already exists. Skipping."
+  echo "⚠️  .tool-versions already exists. Skipping."
 else
   cp "$TEMP_DIR/.tool-versions.example" ".tool-versions"
-  echo "SUCCESS: .tool-versions created from template"
+  echo "✅ .tool-versions created from template"
   echo "   Edit to specify your tool versions"
 fi
 
@@ -301,26 +301,26 @@ rm -rf "$TEMP_DIR"
 
 # Setup Git hooks
 echo ""
-echo "Setting up Git hooks..."
+echo "🔗 Setting up Git hooks..."
 if [ -d "$TARGET_DIR/hooks/common/.husky" ]; then
   if [ -L ".husky" ] || [ -d ".husky" ]; then
-    echo "WARNING: .husky already exists. Skipping symlink creation."
+    echo "⚠️  .husky already exists. Skipping symlink creation."
     echo "   To use Kiro hooks, remove .husky and run:"
     echo "   ln -s .kiro/hooks/common/.husky .husky"
   else
     ln -s ".kiro/hooks/common/.husky" ".husky"
-    echo "SUCCESS: Git hooks linked to .husky"
+    echo "✅ Git hooks linked to .husky"
     echo "   Source: .kiro/hooks/common/.husky"
     echo "   Link: .husky"
   fi
 else
-  echo "INFO: No Git hooks found in template"
+  echo "ℹ️  No Git hooks found in template"
 fi
 
 # Optional: MCP server configuration
 echo ""
-echo "MCP Server Configuration"
-read -p "Do you want to enable optional MCP servers? (y/N): " -n 1 -r MCP_CHOICE
+echo "🔧 MCP Server Configuration"
+read -p "Do you want to enable optional MCP servers? (y/N): " -n 1 -r MCP_CHOICE < /dev/tty
 echo ""
 
 if [[ $MCP_CHOICE =~ ^[Yy]$ ]]; then
@@ -332,7 +332,7 @@ if [[ $MCP_CHOICE =~ ^[Yy]$ ]]; then
   echo "  4) All of the above"
   echo "  5) None (skip)"
   echo ""
-  read -p "Enter your choice (1-5) [default: 5]: " -n 1 -r SERVER_CHOICE
+  read -p "Enter your choice (1-5) [default: 5]: " -n 1 -r SERVER_CHOICE < /dev/tty
   echo ""
   
   case "$SERVER_CHOICE" in
@@ -353,7 +353,7 @@ if [[ $MCP_CHOICE =~ ^[Yy]$ ]]; then
   }
 }
 EOF
-      echo "SUCCESS: aws-docs enabled"
+      echo "✅ aws-docs enabled"
       ;;
     2)
       echo "Enabling terraform..."
@@ -372,7 +372,7 @@ EOF
   }
 }
 EOF
-      echo "SUCCESS: terraform enabled"
+      echo "✅ terraform enabled"
       ;;
     3)
       echo "Enabling playwright..."
@@ -388,41 +388,41 @@ EOF
   }
 }
 EOF
-      echo "SUCCESS: playwright enabled"
+      echo "✅ playwright enabled"
       ;;
     4)
       echo "Enabling all optional servers..."
       cp "$TARGET_DIR/settings/mcp.local.json.example" "$TARGET_DIR/settings/mcp.local.json"
-      echo "SUCCESS: All optional servers enabled"
+      echo "✅ All optional servers enabled"
       ;;
     *)
-      echo "INFO: Skipping optional MCP servers"
+      echo "ℹ️  Skipping optional MCP servers"
       ;;
   esac
 else
-  echo "INFO: Skipping MCP server configuration"
+  echo "ℹ️  Skipping MCP server configuration"
 fi
 
 # Copy Makefile
 echo ""
-echo "Setting up Makefile..."
+echo "📝 Setting up Makefile..."
 if [ -f "Makefile" ]; then
-  echo "WARNING: Makefile already exists. Skipping."
+  echo "⚠️  Makefile already exists. Skipping."
   echo "   See Makefile.example for reference"
 else
   cp "$TEMP_DIR/Makefile.example" "Makefile"
-  echo "SUCCESS: Makefile created from template"
+  echo "✅ Makefile created from template"
   echo "   Customize it for your project"
 fi
 
 # Copy .tool-versions
 echo ""
-echo "Setting up .tool-versions..."
+echo "🔧 Setting up .tool-versions..."
 if [ -f ".tool-versions" ]; then
-  echo "WARNING: .tool-versions already exists. Skipping."
+  echo "⚠️  .tool-versions already exists. Skipping."
 else
   cp "$TEMP_DIR/.tool-versions.example" ".tool-versions"
-  echo "SUCCESS: .tool-versions created from template"
+  echo "✅ .tool-versions created from template"
   echo "   Edit to specify your tool versions"
 fi
 
@@ -431,32 +431,32 @@ rm -rf "$TEMP_DIR"
 
 # Setup Git hooks
 echo ""
-echo "Setting up Git hooks..."
+echo "🔗 Setting up Git hooks..."
 if [ -L ".husky" ] || [ -d ".husky" ]; then
-  echo "WARNING: .husky already exists. Skipping symlink creation."
+  echo "⚠️  .husky already exists. Skipping symlink creation."
   echo "   To recreate: rm -rf .husky && ln -s .kiro/husky .husky"
 else
   ln -s ".kiro/husky" ".husky"
-  echo "SUCCESS: Git hooks linked"
+  echo "✅ Git hooks linked"
   echo "   .husky -> .kiro/husky"
 fi
 
 # Setup GitHub configuration
 echo ""
-echo "Setting up GitHub configuration..."
+echo "🔗 Setting up GitHub configuration..."
 if [ -L ".github" ] || [ -d ".github" ]; then
-  echo "WARNING: .github already exists. Skipping symlink creation."
+  echo "⚠️  .github already exists. Skipping symlink creation."
   echo "   To recreate: rm -rf .github && ln -s .kiro/github .github"
 else
   ln -s ".kiro/github" ".github"
-  echo "SUCCESS: GitHub configuration linked"
+  echo "✅ GitHub configuration linked"
   echo "   .github -> .kiro/github"
 fi
 
 echo ""
-echo "Installation complete!"
+echo "✨ Installation complete!"
 echo ""
-echo "Next steps:"
+echo "📋 Next steps:"
 echo ""
 echo "1. Install required tools:"
 echo "   brew install gitleaks          # Security scanning"
@@ -473,5 +473,5 @@ echo "3. Verify setup:"
 echo "   git add ."
 echo "   git commit -m \"test: Verify hooks\" --allow-empty"
 echo ""
-echo "Documentation: $REPO_URL"
+echo "📚 Documentation: $REPO_URL"
 echo ""
