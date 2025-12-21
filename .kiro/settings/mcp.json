@@ -1,0 +1,45 @@
+{
+  "$schema": "https://github.com/modelcontextprotocol/specification/blob/main/schema/mcp.schema.json",
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": ["fetch"]
+    },
+    "github": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "GITHUB_PERSONAL_ACCESS_TOKEN=$(gh auth token) npx -y @modelcontextprotocol/server-github"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "create_pull_request",
+        "update_pull_request",
+        "request_copilot_review",
+        "merge_pull_request",
+        "pull_request_read",
+        "list_pull_requests",
+        "issue_write",
+        "list_commits",
+        "get_commit",
+        "search_code",
+        "add_comment_to_pending_review",
+        "add_issue_comment",
+        "get_me",
+        "search_repositories",
+        "create_issue",
+        "get_issue",
+        "get_pull_request",
+        "get_pull_request_comments",
+        "get_pull_request_reviews",
+        "update_issue",
+        "get_pull_request_files",
+        "create_pull_request_review"
+      ]
+    }
+  }
+}
+

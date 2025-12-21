@@ -1,0 +1,9 @@
+# Ignore all files in this directory
+*
+
+# Except these core files (Git managed)
+!workflows/
+!ISSUE_TEMPLATE/
+!PULL_REQUEST_TEMPLATE.md
+!README.md
+!.gitignore

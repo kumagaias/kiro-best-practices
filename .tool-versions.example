@@ -1,0 +1,9 @@
+# Tool versions for this project
+# Install tools: asdf install
+
+# Node.js
+nodejs 24.0.0
+
+# Optional: Uncomment if needed
+# terraform 1.9.0
+# python 3.12.0

@@ -1,0 +1,88 @@
+.PHONY: help install test test-unit test-e2e test-security test-lint clean check-tools dev build deploy
+
+# Default target
+help:
+	@echo "Available commands:"
+	@echo "  make help              - Show this help message"
+	@echo "  make install           - Install dependencies"
+	@echo "  make test              - Run all tests"
+	@echo "  make test-unit         - Run unit tests"
+	@echo "  make test-e2e          - Run E2E tests"
+	@echo "  make test-security     - Run security checks"
+	@echo "  make test-lint         - Run linting"
+	@echo "  make dev               - Start development server"
+	@echo "  make build             - Build for production"
+	@echo "  make clean             - Clean build artifacts"
+	@echo "  make check-tools       - Check required tools"
+	@echo "  make deploy            - Deploy to production"
+
+# Install dependencies
+install: check-tools
+	@echo "📦 Installing dependencies..."
+	npm ci
+	cd frontend && npm ci
+	cd backend && npm ci
+
+# Run all tests
+test: test-unit test-e2e test-lint test-security
+	@echo "✅ All tests passed"
+
+# Run unit tests
+test-unit:
+	@echo "🧪 Running unit tests..."
+	npm run test:unit
+
+# Run E2E tests
+test-e2e:
+	@echo "🎭 Running E2E tests..."
+	npm run test:e2e
+
+# Run linting
+test-lint:
+	@echo "🔍 Running linting..."
+	npm run lint
+
+# Run security checks
+test-security:
+	@echo "🔒 Running security checks..."
+	@if command -v gitleaks >/dev/null 2>&1; then \
+		gitleaks detect --source . --verbose --redact; \
+	else \
+		echo "⚠️  gitleaks not installed. Install: brew install gitleaks"; \
+		exit 1; \
+	fi
+	@echo "🔍 Checking for vulnerabilities..."
+	npm audit
+
+# Start development server
+dev:
+	@echo "🚀 Starting development server..."
+	npm run dev
+
+# Build for production
+build:
+	@echo "🏗️  Building for production..."
+	npm run build
+
+# Deploy to production
+deploy: test build
+	@echo "🚀 Deploying to production..."
+	@echo "⚠️  TODO: Add your deployment commands here"
+
+# Clean build artifacts
+clean:
+	@echo "🧹 Cleaning build artifacts..."
+	rm -rf dist/ build/ .next/ out/
+	rm -rf node_modules/.cache/
+	rm -rf frontend/dist/ frontend/.next/
+	rm -rf backend/dist/
+
+# Check required tools
+check-tools:
+	@echo "🔍 Checking required tools..."
+	@command -v node >/dev/null 2>&1 || { echo "❌ node not found"; exit 1; }
+	@command -v npm >/dev/null 2>&1 || { echo "❌ npm not found"; exit 1; }
+	@command -v git >/dev/null 2>&1 || { echo "❌ git not found"; exit 1; }
+	@command -v gh >/dev/null 2>&1 || { echo "❌ gh (GitHub CLI) not found"; exit 1; }
+	@command -v gitleaks >/dev/null 2>&1 || { echo "❌ gitleaks not found"; exit 1; }
+	@echo "✅ All required tools are installed"

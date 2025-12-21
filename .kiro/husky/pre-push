@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-push checks..."
+
+# Run security check
+echo "🔒 Running security check..."
+./.kiro/hooks/common/scripts/security-check.sh
+
+if [ $? -ne 0 ]; then
+  echo "❌ Security check failed. Please fix the issues before pushing."
+  exit 1
+fi
+
+echo "✅ All pre-push checks passed!"
