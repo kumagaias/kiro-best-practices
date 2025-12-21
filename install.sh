@@ -2,9 +2,8 @@
 
 # Kiro Configuration Installer
 # Usage: 
-#   curl -fsSL https://raw.githubusercontent.com/your-org/giro/main/install.sh | bash
-#   or
-#   bash <(curl -fsSL https://raw.githubusercontent.com/your-org/giro/main/install.sh)
+#   curl -fsSL https://raw.githubusercontent.com/kumagaias/giro/main/install.sh -o /tmp/kiro-install.sh
+#   bash /tmp/kiro-install.sh
 
 set -e
 
