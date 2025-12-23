@@ -447,31 +447,37 @@ fi
 echo ""
 echo "✨ Installation complete!"
 echo ""
+
+# Ask if user wants to commit
+read -p "Commit changes now? (Y/n): " -n 1 -r AUTO_COMMIT < /dev/tty
+echo ""
+
+if [[ ! $AUTO_COMMIT =~ ^[Nn]$ ]]; then
+  echo "📦 Committing changes..."
+  git add .gitmodules .kiro-template .kiro .husky .github Makefile .tool-versions 2>/dev/null || true
+  git commit -m "chore: Add giro configuration as submodule" 2>/dev/null || {
+    echo "⚠️  Commit failed. You may need to commit manually."
+  }
+  echo "✅ Changes committed"
+  echo ""
+fi
+
 echo "📋 Next steps:"
 echo ""
-echo "1. Commit the submodule:"
-echo "   git add .gitmodules .kiro-template .kiro .husky .github Makefile .tool-versions"
-echo "   git commit -m 'chore: Add giro configuration as submodule'"
+echo "1. Install required tools:"
+echo "   brew install gitleaks gh"
+echo "   gh auth login"
 echo ""
-echo "2. Install required tools:"
-echo "   brew install gitleaks          # Security scanning"
-echo "   brew install gh && gh auth login  # GitHub CLI"
-echo ""
-echo "3. Customize for your project:"
-echo "   - Edit Makefile (add your build/test commands)"
-echo "   - Edit .tool-versions (specify tool versions)"
+echo "2. Customize for your project:"
+echo "   - Edit Makefile"
 echo "   - Edit .kiro/steering/project.md"
 echo "   - Edit .kiro/steering/tech.md"
-echo "   - Edit .kiro/steering/structure.md"
 echo ""
-echo "4. Verify setup:"
-echo "   git add ."
+echo "3. Verify setup:"
 echo "   git commit -m \"test: Verify hooks\" --allow-empty"
 echo ""
-echo "📚 To update giro template later:"
+echo "📚 To update later:"
 echo "   git submodule update --remote .kiro-template"
-echo "   git add .kiro-template"
-echo "   git commit -m 'chore: Update giro template'"
 echo ""
 echo "📚 Documentation: $REPO_URL"
 echo ""
