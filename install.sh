@@ -78,7 +78,7 @@ if [ -d "$TARGET_DIR" ]; then
       echo "  📁 Updating common files..."
       cp -r "$TEMP_DIR/.kiro/hooks" "$TARGET_DIR/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/steering/common" "$TARGET_DIR/steering/" 2>/dev/null || true
-      cp -r "$TEMP_DIR/.kiro/steering-examples" "$TARGET_DIR/" 2>/dev/null || true
+      cp -r "$TEMP_DIR/.kiro/giro/steering-examples" "$TARGET_DIR/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.json" "$TARGET_DIR/settings/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.local.json.example" "$TARGET_DIR/settings/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/giro" "$TARGET_DIR/" 2>/dev/null || true

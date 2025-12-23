@@ -30,7 +30,7 @@ fi
 echo "📋 Files to sync:"
 echo "  ✓ .kiro/hooks/"
 echo "  ✓ .kiro/steering/common/"
-echo "  ✓ .kiro/steering-examples/"
+echo "  ✓ .kiro/giro/steering-examples/"
 echo "  ✓ .kiro/settings/ (templates only)"
 echo "  ✓ .kiro/giro/"
 echo ""
@@ -48,7 +48,7 @@ echo "📁 Copying files..."
 
 cp -r .kiro/hooks "$GIRO_PATH/.kiro/" 2>/dev/null || true
 cp -r .kiro/steering/common "$GIRO_PATH/.kiro/steering/" 2>/dev/null || true
-cp -r .kiro/steering-examples "$GIRO_PATH/.kiro/" 2>/dev/null || true
+cp -r .kiro/giro/steering-examples "$GIRO_PATH/.kiro/" 2>/dev/null || true
 cp .kiro/settings/mcp.json "$GIRO_PATH/.kiro/settings/" 2>/dev/null || true
 cp .kiro/settings/mcp.local.json.example "$GIRO_PATH/.kiro/settings/" 2>/dev/null || true
 cp -r .kiro/giro "$GIRO_PATH/.kiro/" 2>/dev/null || true
