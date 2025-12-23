@@ -90,6 +90,8 @@ echo "🔗 Creating symlinks for common files..."
 # Remove existing symlinks/directories if they exist
 [ -L "$TARGET_DIR/hooks" ] && rm "$TARGET_DIR/hooks"
 [ -L "$TARGET_DIR/steering/common" ] && rm "$TARGET_DIR/steering/common"
+[ -L "$TARGET_DIR/steering-examples" ] && rm "$TARGET_DIR/steering-examples"
+[ -L "$TARGET_DIR/scripts" ] && rm "$TARGET_DIR/scripts"
 [ -L "$TARGET_DIR/settings/mcp.json" ] && rm "$TARGET_DIR/settings/mcp.json"
 [ -L "$TARGET_DIR/settings/mcp.local.json.example" ] && rm "$TARGET_DIR/settings/mcp.local.json.example"
 [ -L ".husky" ] && rm ".husky"
@@ -98,10 +100,12 @@ echo "🔗 Creating symlinks for common files..."
 # Create symlinks
 ln -s "../$SUBMODULE_DIR/.kiro/hooks" "$TARGET_DIR/hooks"
 ln -s "../../$SUBMODULE_DIR/.kiro/steering/common" "$TARGET_DIR/steering/common"
+ln -s "../$SUBMODULE_DIR/.kiro/steering-examples" "$TARGET_DIR/steering-examples"
+ln -s "../$SUBMODULE_DIR/.kiro/scripts" "$TARGET_DIR/scripts"
 ln -s "../../$SUBMODULE_DIR/.kiro/settings/mcp.json" "$TARGET_DIR/settings/mcp.json"
 ln -s "../../$SUBMODULE_DIR/.kiro/settings/mcp.local.json.example" "$TARGET_DIR/settings/mcp.local.json.example"
-ln -s "$SUBMODULE_DIR/husky" ".husky"
-ln -s "$SUBMODULE_DIR/github" ".github"
+ln -s "$SUBMODULE_DIR/.kiro/scripts/husky" ".husky"
+ln -s "$SUBMODULE_DIR/.kiro/scripts/github" ".github"
 
 echo "✅ Symlinks created"
 echo ""
@@ -264,12 +268,12 @@ echo ""
 case "$HOSTING_CHOICE" in
   2)
     echo "  📝 Setting up AWS structure..."
-    cp "$SUBMODULE_DIR/steering-examples/common/structure-aws.md" "$TARGET_DIR/steering/structure.md"
+    cp "$SUBMODULE_DIR/.kiro/steering-examples/common/structure-aws.md" "$TARGET_DIR/steering/structure.md"
     echo "  ✅ AWS structure template copied"
     ;;
   *)
     echo "  📝 Setting up default structure..."
-    cp "$SUBMODULE_DIR/steering-examples/common/structure-default.md" "$TARGET_DIR/steering/structure.md"
+    cp "$SUBMODULE_DIR/.kiro/steering-examples/common/structure-default.md" "$TARGET_DIR/steering/structure.md"
     echo "  ✅ Default structure template copied"
     ;;
 esac

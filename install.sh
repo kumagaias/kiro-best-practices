@@ -78,12 +78,10 @@ if [ -d "$TARGET_DIR" ]; then
       echo "  📁 Updating common files..."
       cp -r "$TEMP_DIR/.kiro/hooks" "$TARGET_DIR/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/steering/common" "$TARGET_DIR/steering/" 2>/dev/null || true
-      cp -r "$TEMP_DIR/steering-examples" "$TARGET_DIR/../" 2>/dev/null || true
+      cp -r "$TEMP_DIR/.kiro/steering-examples" "$TARGET_DIR/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.json" "$TARGET_DIR/settings/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.local.json.example" "$TARGET_DIR/settings/" 2>/dev/null || true
-      cp -r "$TEMP_DIR/.kiro/settings/README.md" "$TARGET_DIR/settings/" 2>/dev/null || true
-      cp -r "$TEMP_DIR/husky" "$TARGET_DIR/../" 2>/dev/null || true
-      cp -r "$TEMP_DIR/github" "$TARGET_DIR/../" 2>/dev/null || true
+      cp -r "$TEMP_DIR/.kiro/scripts" "$TARGET_DIR/" 2>/dev/null || true
       
       # Restore user customizations
       echo "  📁 Restoring your customizations..."
@@ -287,12 +285,12 @@ echo ""
 case "$HOSTING_CHOICE" in
   2)
     echo "  📝 Setting up AWS structure..."
-    cp "$TEMP_DIR/steering-examples/common/structure-aws.md" "$TARGET_DIR/steering/structure.md"
+    cp "$TARGET_DIR/steering-examples/common/structure-aws.md" "$TARGET_DIR/steering/structure.md"
     echo "  ✅ AWS structure template copied"
     ;;
   *)
     echo "  📝 Setting up default structure..."
-    cp "$TEMP_DIR/steering-examples/common/structure-default.md" "$TARGET_DIR/steering/structure.md"
+    cp "$TARGET_DIR/steering-examples/common/structure-default.md" "$TARGET_DIR/steering/structure.md"
     echo "  ✅ Default structure template copied"
     ;;
 esac
@@ -381,38 +379,22 @@ rm -rf "$TEMP_DIR"
 
 # Setup Git hooks
 echo ""
-echo "🔗 Setting up Git hooks..."
-if [ -d "$TARGET_DIR/scripts/husky" ]; then
-  if [ -L ".husky" ] || [ -d ".husky" ]; then
-    echo "⚠️  .husky already exists. Skipping symlink creation."
-    echo "   To use Kiro hooks, remove .husky and run:"
-    echo "   ln -s .kiro/scripts/husky .husky"
-  else
-    ln -s ".kiro/scripts/husky" ".husky"
-    echo "✅ Git hooks linked to .husky"
-    echo "   Source: .kiro/scripts/husky"
-    echo "   Link: .husky"
-  fi
+echo "📁 Setting up Git hooks..."
+if [ -d ".husky" ]; then
+  echo "⚠️  .husky already exists. Skipping."
 else
-  echo "ℹ️  No Git hooks found in template"
+  cp -r "$TARGET_DIR/scripts/husky" ".husky"
+  echo "✅ Git hooks copied to .husky"
 fi
 
 # Setup GitHub configuration
 echo ""
-echo "🔗 Setting up GitHub configuration..."
-if [ -d "$TARGET_DIR/scripts/github" ]; then
-  if [ -L ".github" ] || [ -d ".github" ]; then
-    echo "⚠️  .github already exists. Skipping symlink creation."
-    echo "   To use Kiro GitHub config, remove .github and run:"
-    echo "   ln -s .kiro/scripts/github .github"
-  else
-    ln -s ".kiro/scripts/github" ".github"
-    echo "✅ GitHub configuration linked"
-    echo "   Source: .kiro/scripts/github"
-    echo "   Link: .github"
-  fi
+echo "📁 Setting up GitHub configuration..."
+if [ -d ".github" ]; then
+  echo "⚠️  .github already exists. Skipping."
 else
-  echo "ℹ️  No GitHub configuration found in template"
+  cp -r "$TARGET_DIR/scripts/github" ".github"
+  echo "✅ GitHub configuration copied to .github"
 fi
 
 # Optional: MCP server configuration

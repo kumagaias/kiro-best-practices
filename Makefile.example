@@ -91,4 +91,4 @@ check-tools:
 # Sync improvements to giro template repository
 sync-to-giro:
 	@echo "🔄 Syncing improvements to giro..."
-	@./scripts/sync-to-giro.sh
+	@./.kiro/scripts/sync-to-giro.sh

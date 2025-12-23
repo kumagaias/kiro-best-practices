@@ -2,7 +2,7 @@
 
 # Sync improvements from this project back to giro template repository
 # Usage: 
-#   GIRO_PATH=~/projects/giro ./scripts/sync-to-giro.sh
+#   GIRO_PATH=~/projects/giro ./.kiro/scripts/sync-to-giro.sh
 
 set -e
 
@@ -17,7 +17,7 @@ if [ ! -d "$GIRO_PATH" ]; then
   echo ""
   echo "Options:"
   echo "  1. Clone giro: git clone https://github.com/kumagaias/giro $GIRO_PATH"
-  echo "  2. Set custom path: GIRO_PATH=/path/to/giro ./scripts/sync-to-giro.sh"
+  echo "  2. Set custom path: GIRO_PATH=/path/to/giro ./.kiro/scripts/sync-to-giro.sh"
   exit 1
 fi
 
@@ -30,10 +30,9 @@ fi
 echo "📋 Files to sync:"
 echo "  ✓ .kiro/hooks/"
 echo "  ✓ .kiro/steering/common/"
-echo "  ✓ steering-examples/"
+echo "  ✓ .kiro/steering-examples/"
 echo "  ✓ .kiro/settings/ (templates only)"
-echo "  ✓ husky/"
-echo "  ✓ github/"
+echo "  ✓ .kiro/scripts/"
 echo ""
 
 read -p "Continue? (y/N): " -n 1 -r
@@ -49,12 +48,10 @@ echo "📁 Copying files..."
 
 cp -r .kiro/hooks "$GIRO_PATH/.kiro/" 2>/dev/null || true
 cp -r .kiro/steering/common "$GIRO_PATH/.kiro/steering/" 2>/dev/null || true
-cp -r steering-examples "$GIRO_PATH/" 2>/dev/null || true
+cp -r .kiro/steering-examples "$GIRO_PATH/.kiro/" 2>/dev/null || true
 cp .kiro/settings/mcp.json "$GIRO_PATH/.kiro/settings/" 2>/dev/null || true
 cp .kiro/settings/mcp.local.json.example "$GIRO_PATH/.kiro/settings/" 2>/dev/null || true
-cp .kiro/settings/README.md "$GIRO_PATH/.kiro/settings/" 2>/dev/null || true
-cp -r husky "$GIRO_PATH/" 2>/dev/null || true
-cp -r github "$GIRO_PATH/" 2>/dev/null || true
+cp -r .kiro/scripts "$GIRO_PATH/.kiro/" 2>/dev/null || true
 
 echo "✅ Files synced to: $GIRO_PATH"
 echo ""

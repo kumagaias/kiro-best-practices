@@ -5,7 +5,7 @@ echo "🔍 Running pre-push checks..."
 
 # Run security check
 echo "🔒 Running security check..."
-./scripts/hooks/security-check.sh
+./.kiro/scripts/hooks/security-check.sh
 
 if [ $? -ne 0 ]; then
   echo "❌ Security check failed. Please fix the issues before pushing."
