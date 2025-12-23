@@ -81,7 +81,7 @@ if [ -d "$TARGET_DIR" ]; then
       cp -r "$TEMP_DIR/.kiro/steering-examples" "$TARGET_DIR/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.json" "$TARGET_DIR/settings/" 2>/dev/null || true
       cp -r "$TEMP_DIR/.kiro/settings/mcp.local.json.example" "$TARGET_DIR/settings/" 2>/dev/null || true
-      cp -r "$TEMP_DIR/.kiro/scripts" "$TARGET_DIR/" 2>/dev/null || true
+      cp -r "$TEMP_DIR/.kiro/giro" "$TARGET_DIR/" 2>/dev/null || true
       
       # Restore user customizations
       echo "  📁 Restoring your customizations..."
