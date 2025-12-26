@@ -148,31 +148,6 @@ should_skip "steering/tech.md" || ln -sf "$REPO_DIR/.kiro/steering/tech.md" "$KI
 should_skip "scripts/security-check.sh" || ln -sf "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
 should_skip "scripts/setup-git-hooks.sh" || ln -sf "$REPO_DIR/.kiro/scripts/setup-git-hooks.sh" "$KIRO_HOME/scripts/setup-git-hooks.sh"
 
-# Templates and docs (directory symlinks)
-if [ -e "$KIRO_HOME/templates" ]; then
-  echo "  ⚠️  templates directory already exists"
-  read -p "  Overwrite? (y/N): " -n 1 -r
-  echo ""
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rm -rf "$KIRO_HOME/templates" 2>/dev/null || true
-    ln -sf "$REPO_DIR/.kiro/templates" "$KIRO_HOME/templates"
-  fi
-else
-  ln -sf "$REPO_DIR/.kiro/templates" "$KIRO_HOME/templates"
-fi
-
-if [ -e "$KIRO_HOME/docs" ]; then
-  echo "  ⚠️  docs directory already exists"
-  read -p "  Overwrite? (y/N): " -n 1 -r
-  echo ""
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rm -rf "$KIRO_HOME/docs" 2>/dev/null || true
-    ln -sf "$REPO_DIR/.kiro/docs" "$KIRO_HOME/docs"
-  fi
-else
-  ln -sf "$REPO_DIR/.kiro/docs" "$KIRO_HOME/docs"
-fi
-
 # Set execute permissions on scripts
 chmod +x "$KIRO_HOME/scripts"/*.sh 2>/dev/null || true
 
@@ -193,8 +168,6 @@ echo "  ✓ hooks/          - Agent hooks (JSON)"
 echo "  ✓ settings/       - MCP configuration templates"
 echo "  ✓ steering/       - Common development guidelines"
 echo "  ✓ scripts/        - Git hooks and utility scripts"
-echo "  ✓ templates/      - Project templates (husky, github, etc.)"
-echo "  ✓ docs/           - Documentation"
 echo ""
 echo "📖 Next Steps:"
 echo ""
@@ -203,8 +176,8 @@ echo "   cd /path/to/your/project"
 echo "   ~/.kiro/scripts/setup-git-hooks.sh"
 echo ""
 echo "2. Copy project templates (optional):"
-echo "   cp ~/.kiro/templates/Makefile.example ./Makefile"
-echo "   cp ~/.kiro/templates/.tool-versions.example ./.tool-versions"
+echo "   cp ~/.kiro/kiro-best-practices/.kiro/templates/Makefile.example ./Makefile"
+echo "   cp ~/.kiro/kiro-best-practices/.kiro/templates/.tool-versions.example ./.tool-versions"
 echo ""
 echo "3. MCP configuration:"
 echo "   Common MCP settings are in ~/.kiro/settings/mcp.json"
@@ -221,5 +194,6 @@ echo "   - .kiro/settings/mcp.json (project-specific, optional)"
 echo "   - ~/.kiro/steering/ (common guidelines)"
 echo "   - .kiro/steering/ (project-specific guidelines)"
 echo ""
-echo "📚 Documentation: ~/.kiro/docs/STEERING.md"
+echo "📚 Documentation: ~/.kiro/kiro-best-practices/.kiro/docs/"
+echo "📦 Templates: ~/.kiro/kiro-best-practices/.kiro/templates/"
 echo ""

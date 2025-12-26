@@ -61,13 +61,13 @@ Kiro will merge both configurations (project settings override common settings).
 
 ```bash
 # Copy Makefile template
-cp ~/.kiro/templates/Makefile.example ./Makefile
+cp ~/.kiro/kiro-best-practices/.kiro/templates/Makefile.example ./Makefile
 
 # Copy tool versions
-cp ~/.kiro/templates/.tool-versions.example ./.tool-versions
+cp ~/.kiro/kiro-best-practices/.kiro/templates/.tool-versions.example ./.tool-versions
 
 # Copy GitHub templates
-cp -r ~/.kiro/templates/github/ ./.github/
+cp -r ~/.kiro/kiro-best-practices/.kiro/templates/github/ ./.github/
 ```
 
 ### Steering Files
@@ -119,17 +119,15 @@ Note: This will NOT remove project-specific `.kiro/` directories.
 │       ├── settings/
 │       ├── steering/
 │       ├── scripts/
-│       ├── templates/
-│       └── docs/
-├── hooks/          -> kiro-best-practices/.kiro/hooks/
-├── settings/       -> kiro-best-practices/.kiro/settings/
-├── steering/       -> kiro-best-practices/.kiro/steering/
-├── scripts/        -> kiro-best-practices/.kiro/scripts/
-├── templates/      -> kiro-best-practices/.kiro/templates/
-└── docs/           -> kiro-best-practices/.kiro/docs/
+│       ├── templates/       # Templates (not symlinked)
+│       └── docs/            # Documentation (not symlinked)
+├── hooks/          -> kiro-best-practices/.kiro/hooks/*.json
+├── settings/       -> kiro-best-practices/.kiro/settings/*.json
+├── steering/       -> kiro-best-practices/.kiro/steering/*.md
+└── scripts/        -> kiro-best-practices/.kiro/scripts/*.sh
 ```
 
-**Note**: `->` indicates symlinks. All files are linked to the repository.
+**Note**: Only files that Kiro reads are symlinked. Templates and docs are accessed directly from the repository.
 
 ## License
 

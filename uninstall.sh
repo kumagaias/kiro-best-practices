@@ -62,9 +62,6 @@ rm -f "$KIRO_HOME/steering/tech.md" 2>/dev/null && echo "  ✓ Removed steering/
 rm -f "$KIRO_HOME/scripts/security-check.sh" 2>/dev/null && echo "  ✓ Removed scripts/security-check.sh" || true
 rm -f "$KIRO_HOME/scripts/setup-git-hooks.sh" 2>/dev/null && echo "  ✓ Removed scripts/setup-git-hooks.sh" || true
 
-rm -f "$KIRO_HOME/templates" 2>/dev/null && echo "  ✓ Removed templates symlink" || true
-rm -f "$KIRO_HOME/docs" 2>/dev/null && echo "  ✓ Removed docs symlink" || true
-
 # Remove empty directories
 rmdir "$KIRO_HOME/hooks" 2>/dev/null && echo "  ✓ Removed hooks directory" || true
 rmdir "$KIRO_HOME/settings" 2>/dev/null && echo "  ✓ Removed settings directory" || true
