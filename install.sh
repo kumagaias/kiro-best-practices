@@ -4,6 +4,8 @@
 # Installs shared configuration to ~/.kiro/
 # Usage: 
 #   curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
+#   OVERWRITE=1 curl -fsSL ... | bash  # Force overwrite
+#   SKIP=1 curl -fsSL ... | bash       # Skip existing files
 
 set -e
 
@@ -11,6 +13,13 @@ REPO_URL="https://github.com/kumagaias/kiro-best-practices"
 BRANCH="${KIRO_BRANCH:-main}"
 KIRO_HOME="$HOME/.kiro"
 REPO_DIR="$KIRO_HOME/kiro-best-practices"
+
+# Check if running in non-interactive mode (piped from curl)
+if [ -t 0 ]; then
+  INTERACTIVE=true
+else
+  INTERACTIVE=false
+fi
 
 echo "🚀 Kiro Best Practices Installer"
 echo "================================"
