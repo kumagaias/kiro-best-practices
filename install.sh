@@ -134,8 +134,6 @@ if [ ${#CONFLICTS[@]} -gt 0 ]; then
     esac
   fi
 fi
-  echo ""
-fi
 
 # Create directory structure
 echo "  📁 Creating directory structure..."
