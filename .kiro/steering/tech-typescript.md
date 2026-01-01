@@ -1,5 +1,6 @@
 ---
 inclusion: manual
+fileMatchPattern: '\.(ts|tsx|js|jsx)$'
 ---
 
 # TypeScript/React/Node.js Technical Practices
