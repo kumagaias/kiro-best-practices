@@ -485,6 +485,6 @@ it.skip('should work', () => {
 ---
 
 **Related guides:**
-- #[[file:project.md]] - Testing requirements and coverage targets
+- #[[file:deployment-workflow.md]] - Testing requirements and coverage targets
 - #[[file:tech-typescript.md]] - TypeScript-specific testing patterns
 - #[[file:security-policies.md]] - Security testing considerations

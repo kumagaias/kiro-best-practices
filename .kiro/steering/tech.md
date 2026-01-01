@@ -61,7 +61,7 @@ make clean             # Clean build artifacts
 
 ## Deployment
 
-**For detailed procedures, see**: #[[file:deployment-workflow.md]]
+**For detailed procedures, see**: This file covers deployment in the Deployment Standards section above.
 
 ```bash
 # Always test before push
@@ -78,5 +78,5 @@ git push origin feat/issue-123-feature
 
 **For specialized topics:**
 - #[[file:security-policies.md]] - Security guidelines
-- #[[file:deployment-workflow.md]] - Deployment procedures
+- #[[file:deployment-workflow.md]] - Project standards and deployment
 - #[[file:testing-standards.md]] - Testing approach and patterns

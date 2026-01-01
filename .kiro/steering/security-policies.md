@@ -299,10 +299,10 @@ app.use('/api/auth/login', authLimiter);
 
 ### Postmortem Template
 
-See `project.md` for postmortem structure.
+See #[[file:deployment-workflow.md]] for postmortem structure.
 
 ---
 
 **Related guides:**
-- #[[file:project.md]] - Project standards including postmortem guidelines
+- #[[file:deployment-workflow.md]] - Project standards including postmortem guidelines
 - #[[file:tech-typescript.md]] - TypeScript-specific security practices

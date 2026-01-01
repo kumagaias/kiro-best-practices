@@ -1,470 +1,351 @@
 ---
-inclusion: manual
+inclusion: always
 ---
 
-# Deployment Process
+# Common Project Standards (General)
 
-Deployment procedures, CI/CD pipeline configuration, and environment management.
-
-**Usage**: Include this guide by typing `#deployment-workflow` in chat.
+General project standards applicable to various projects.
 
 ---
 
-## Deployment Overview
+## Communication Standards
 
-### Environments
+- **Agent chat**: Project language (Japanese/English)
+- **README files**: English (max 200 lines)
+- **GitHub PRs/Issues**: English
+- **Commit messages**: English
+- **Code comments**: English
 
-- **Development**: Local development environment
-- **Staging**: Pre-production testing environment
-- **Production**: Live production environment
+## Development Flow
 
-### Deployment Strategy
+### Basic Flow
 
-- Use blue-green or canary deployments for zero-downtime
-- Always deploy to staging first
-- Automated rollback on failure
-- Monitor metrics post-deployment
-
-## Pre-deployment Checklist
-
-Before deploying to any environment:
-
-- [ ] All tests pass (`make test`)
-- [ ] Security checks pass (`make test-security`)
-- [ ] Code reviewed and approved
-- [ ] Documentation updated
-- [ ] Environment variables configured
-- [ ] Database migrations tested
-- [ ] Rollback plan prepared
-- [ ] Monitoring alerts configured
-- [ ] Stakeholders notified
-
-## Build Procedures
-
-### Build Process
+All development work must start with a GitHub Issue.
 
 ```bash
-# 1. Install dependencies
-npm ci
+# 1. Create GitHub Issue
+gh issue create --title "Add user authentication" --body "Description..."
+# Or use GitHub MCP
+# Get issue number (e.g., #123)
 
-# 2. Run linting
-npm run lint
+# 2. Create specs document
+# Create .kiro/specs/feature/issue-123-add-user-authentication.md
+# Document requirements, design, and implementation plan
 
-# 3. Run tests
-npm test
+# 3. Create branch with issue number
+git checkout -b feat/issue-123-add-user-authentication
 
-# 4. Build application
-npm run build
-
-# 5. Run security checks
-npm audit
-gitleaks detect --source . --verbose
-```
-
-### Build Configuration
-
-```json
-// package.json
-{
-  "scripts": {
-    "build": "tsc && vite build",
-    "build:staging": "NODE_ENV=staging npm run build",
-    "build:production": "NODE_ENV=production npm run build",
-    "test": "vitest run",
-    "test:ci": "vitest run --coverage",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix"
-  }
-}
-```
-
-## Environment Configuration
-
-### Environment Variables
-
-Each environment should have its own configuration:
-
-```bash
-# .env.development
-NODE_ENV=development
-API_URL=http://localhost:3000
-DATABASE_URL=postgresql://localhost:5432/dev_db
-LOG_LEVEL=debug
-
-# .env.staging
-NODE_ENV=staging
-API_URL=https://staging.example.com
-DATABASE_URL=postgresql://staging-db.example.com:5432/staging_db
-LOG_LEVEL=info
-
-# .env.production
-NODE_ENV=production
-API_URL=https://api.example.com
-DATABASE_URL=postgresql://prod-db.example.com:5432/prod_db
-LOG_LEVEL=warn
-```
-
-### Environment-specific Requirements
-
-**Development:**
-- Hot reload enabled
-- Debug logging
-- Mock external services
-- Relaxed CORS
-
-**Staging:**
-- Production-like configuration
-- Real external services (test accounts)
-- Monitoring enabled
-- Strict CORS
-
-**Production:**
-- Optimized builds
-- CDN enabled
-- Full monitoring and alerting
-- Strict security policies
-
-## Deployment Steps
-
-### Manual Deployment (Emergency Only)
-
-```bash
-# 1. Pull latest changes
-git pull origin main
-
-# 2. Install dependencies
-npm ci
-
-# 3. Run tests
+# 4. Implement & test
 make test
 
-# 4. Build application
-npm run build:production
+# 5. Commit with issue reference (English)
+git add .
+git commit -m "feat: Add user authentication (Refs #123)"
 
-# 5. Backup current version
-cp -r dist dist.backup
+# 6. Push
+git push origin feat/issue-123-add-user-authentication
 
-# 6. Deploy new version
-# (deployment method depends on infrastructure)
+# 7. Create PR with issue reference (English)
+gh pr create --title "feat: Add user authentication" --body "Closes #123"
 
-# 7. Verify deployment
-curl https://api.example.com/health
-
-# 8. Monitor logs
-tail -f /var/log/app.log
+# 8. Review & merge
+# 9. Close issue (auto-closed by PR merge)
 ```
 
-### Automated Deployment (Recommended)
+**Key Points:**
+- Always create Issue first
+- Document in specs with `issue-{number}-{description}.md` format
+- Include issue number in branch name
+- Reference issue in commits (`Refs #123`)
+- Link issue in PR (`Closes #123`)
 
-Use CI/CD pipeline for all deployments.
+### Commit Message Format
 
-## CI/CD Pipeline
+```
+<type>: <subject> (Refs #<issue-number>)
 
-### GitHub Actions Example
+<body>
 
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Run linting
-        run: npm run lint
-        
-      - name: Run tests
-        run: npm test
-        
-      - name: Run security checks
-        run: |
-          npm audit
-          npx gitleaks detect --source . --verbose
-
-  deploy-staging:
-    needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Build
-        run: npm run build:staging
-        env:
-          NODE_ENV: staging
-          
-      - name: Deploy to Staging
-        run: |
-          # Deploy to staging environment
-          # (implementation depends on infrastructure)
-          
-      - name: Verify Deployment
-        run: |
-          curl -f https://staging.example.com/health || exit 1
-
-  deploy-production:
-    needs: deploy-staging
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Build
-        run: npm run build:production
-        env:
-          NODE_ENV: production
-          
-      - name: Deploy to Production
-        run: |
-          # Deploy to production environment
-          # (implementation depends on infrastructure)
-          
-      - name: Verify Deployment
-        run: |
-          curl -f https://api.example.com/health || exit 1
-          
-      - name: Notify Team
-        if: always()
-        run: |
-          # Send notification to team
-          # (Slack, email, etc.)
+<footer>
 ```
 
-## Deployment Strategies
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
-### Blue-Green Deployment
+**Examples:**
+- `feat: Add user authentication (Refs #123)`
+- `fix: Resolve memory leak (Fixes #456)`
+- `docs: Update API documentation (Refs #789)`
+
+### Branch Naming
+
+```
+<type>/issue-<number>-<description>
+```
+
+Examples:
+- `feat/issue-123-add-user-authentication`
+- `fix/issue-456-resolve-memory-leak`
+- `docs/issue-789-update-readme`
+
+## Bug Fix Workflow
+
+### Quick Start (Using Scripts)
 
 ```bash
-# 1. Deploy to green environment (inactive)
-deploy_to_green_environment
+# 1. Create Issue and bugfix documentation
+./.kiro/hooks/common/scripts/create-bugfix-issue.sh
 
-# 2. Run smoke tests on green
-run_smoke_tests green
+# 2. Create fix branch (use suggested name from script output)
+git checkout -b fix/issue-{number}-{description}
 
-# 3. Switch traffic to green
-switch_traffic_to green
+# 3. Fix & test
+make test
 
-# 4. Monitor for issues
-monitor_metrics 5m
+# 4. Commit with issue reference
+git commit -m "fix: [description] (Fixes #{number})"
 
-# 5. If issues, rollback to blue
-if [ $? -ne 0 ]; then
-  switch_traffic_to blue
-fi
+# 5. Create PR (via GitHub CLI or MCP)
+gh pr create --title "fix: [description]" --body "Fixes #{number}"
+
+# 6. After merge, close issue and update documentation
+./.kiro/hooks/common/scripts/close-bugfix-issue.sh {number}
 ```
 
-### Canary Deployment
+### Manual Workflow
+
+1. **Create GitHub Issue** (via GitHub MCP or CLI) - Get Issue number
+2. **Document bug**: Create detailed report in `.kiro/specs/bugfix/issue-{number}-{description}.md`
+3. **Create fix branch**: `fix/issue-{number}-{description}`
+4. **Fix & test**: `make test`
+5. **Commit**: Include `Fixes #{number}` in message
+6. **Create PR** (via GitHub MCP or CLI) with `Fixes #{number}` in body
+7. **Code review**
+8. **Merge** (after approval)
+9. **Issue auto-closed** by PR merge
+
+**❌ Prohibited:**
+- Skipping Issue creation
+- Fixing directly on main branch
+- Merging without approval
+- Working without issue number
+
+**File Naming**: Always use `issue-{number}-{description}.md` format to prevent number conflicts
+
+**Helper Scripts**:
+- `.kiro/hooks/common/scripts/create-bugfix-issue.sh` - Create Issue + bugfix doc
+- `.kiro/hooks/common/scripts/close-bugfix-issue.sh` - Close Issue + update doc
+
+### Bug Report Format
+
+Create detailed bug reports in `.kiro/specs/bugfix/` directory:
+
+```markdown
+# Bug Report #issue-{number}: {Title}
+
+**Date**: YYYY-MM-DD
+**Status**: Open/In Progress/Resolved
+**Severity**: Low/Medium/High/Critical
+**Component**: {Component name}
+
+## Summary
+Brief description of the bug
+
+## Error Details
+Error messages, stack traces, logs
+
+## Reproduction Steps
+1. Step 1
+2. Step 2
+3. ...
+
+## Expected Behavior
+What should happen
+
+## Actual Behavior
+What actually happens
+
+## Possible Causes
+List of potential root causes
+
+## Investigation Needed
+- [ ] Check logs
+- [ ] Review code
+- [ ] Test edge cases
+
+## Impact
+User experience and scope
+
+## Next Steps
+Action items
+```
+
+## Testing Requirements
+
+**For detailed testing standards, see**: #[[file:testing-standards.md]]
 
 ```bash
-# 1. Deploy new version to canary servers (10% traffic)
-deploy_canary_version
-
-# 2. Monitor metrics for 10 minutes
-monitor_metrics 10m
-
-# 3. If metrics good, increase to 50%
-increase_canary_traffic 50
-
-# 4. Monitor for 10 more minutes
-monitor_metrics 10m
-
-# 5. If still good, deploy to 100%
-deploy_full_version
-
-# 6. If issues at any point, rollback
-if [ $? -ne 0 ]; then
-  rollback_canary
-fi
+make test              # All tests
+make test-unit         # Unit tests only
+make test-security     # Security checks
 ```
 
-## Rollback Strategies
+**Coverage Target**: 60% or higher
 
-### Automatic Rollback
+## Documentation Requirements
 
-Configure automatic rollback on:
-- Health check failures
-- Error rate spike (> 5%)
-- Response time degradation (> 2x baseline)
-- Memory/CPU usage spike
+### Required Files
+- `README.md` - Project overview (max 200 lines)
+- `structure.md` - Project-specific structure
+- `tech.md` - Project-specific tech details
+- `deployment-workflow.md` - Project standards (this file)
 
-### Manual Rollback
+### File Size Guidelines
+- **README.md**: Max 200 lines
+- **Source files**: Max 500 lines per file
+- **Documentation**: Keep concise and focused
+
+### Specs File Naming
+
+All specs files should include issue/task number as prefix to prevent conflicts:
+
+**Format**: `issue-{number}-{description}.md` or `task-{number}-{description}.md`
+
+**Examples**:
+- `.kiro/specs/bugfix/issue-123-fix-login-error.md`
+- `.kiro/specs/feature/issue-456-add-user-profile.md`
+- `.kiro/specs/task/task-789-refactor-api-client.md`
+
+**Benefits**:
+- Prevents filename conflicts
+- Easy to link with GitHub Issues
+- Clear traceability
+- Consistent organization
+
+### Update Timing
+- When features change
+- When specs change
+- When structure changes
+
+## Deployment Standards
+
+**For detailed deployment procedures, see**: #[[file:deployment-workflow.md]]
+
+### Pre-deployment Checklist
+- [ ] All tests pass
+- [ ] Security checks pass
+- [ ] Documentation updated
+- [ ] Code reviewed
+- [ ] Changes tested locally
+
+### Basic Deployment Flow
+1. Pull latest changes
+2. Run all tests
+3. Deploy to staging (if available)
+4. Verify in staging
+5. Deploy to production
+6. Monitor logs
+7. Verify in production
+
+## Postmortem Guidelines
+
+### When to Create
+- Security incidents
+- Production failures
+- Critical bugs
+- Process issues
+
+### Postmortem Structure
+1. **Overview**: What happened (1-2 sentences)
+2. **Timeline**: Chronological events
+3. **Root Cause**: Why it occurred
+4. **Impact**: What was affected
+5. **Resolution**: How it was fixed
+6. **Prevention**: Future countermeasures
+
+### Best Practices
+- Don't blame individuals
+- Be concise and specific
+- Focus on system improvements
+- Create promptly after resolution
+- Share learnings with team
+
+## Tool Version Management
+
+### .tool-versions
+Define required tools and versions:
+- Runtime (Node.js, Python, etc.)
+- Infrastructure (Terraform, etc.)
+- CLI tools (AWS CLI, etc.)
+- Security tools (Gitleaks, etc.)
+
+### Installation
+```bash
+# Check tools
+make check-tools
+
+# Install tools (if using asdf)
+asdf install
+```
+
+## Makefile Standards
+
+### Required Commands
+
+All projects must implement these commands:
 
 ```bash
-# 1. Identify last known good version
-git log --oneline -10
-
-# 2. Checkout previous version
-git checkout <commit-hash>
-
-# 3. Deploy previous version
-npm ci
-npm run build:production
-# Deploy...
-
-# 4. Verify rollback
-curl https://api.example.com/health
-
-# 5. Document incident
-# Create postmortem (see project.md)
+make help              # Display available commands
+make install           # Install dependencies
+make test              # Run all tests (unit + security)
+make test-unit         # Run unit tests only
+make test-security     # Run security checks
+make clean             # Clean build artifacts
+make check-tools       # Check required tools
 ```
 
-## Database Migrations
+### Optional Commands
 
-### Migration Strategy
-
-- Always use forward-compatible migrations
-- Test migrations on staging first
-- Keep migrations reversible
-- Backup database before migration
-
-### Migration Example
+Add these as needed:
 
 ```bash
-# 1. Backup database
-pg_dump production_db > backup_$(date +%Y%m%d_%H%M%S).sql
-
-# 2. Run migration on staging
-npm run migrate:staging
-
-# 3. Verify staging
-npm run test:integration
-
-# 4. Run migration on production
-npm run migrate:production
-
-# 5. Verify production
-curl https://api.example.com/health
+make test-e2e          # Run E2E tests
+make test-lint         # Run linting
+make dev               # Start development server
+make build             # Build for production
+make deploy            # Deploy to production
 ```
 
-## Monitoring & Verification
+### Implementation
 
-### Post-deployment Monitoring
-
-Monitor these metrics for at least 30 minutes after deployment:
-
-- **Error rate**: Should remain < 1%
-- **Response time**: Should remain within 2x baseline
-- **CPU usage**: Should remain < 80%
-- **Memory usage**: Should remain < 80%
-- **Request rate**: Should match expected traffic
-- **Database connections**: Should remain stable
-
-### Health Checks
-
-```typescript
-// Health check endpoint
-app.get('/health', async (req, res) => {
-  try {
-    // Check database
-    await prisma.$queryRaw`SELECT 1`;
-    
-    // Check external services
-    await fetch('https://external-api.example.com/health');
-    
-    res.json({
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      version: process.env.APP_VERSION,
-    });
-  } catch (error) {
-    res.status(503).json({
-      status: 'unhealthy',
-      error: error.message,
-    });
-  }
-});
-```
-
-### Smoke Tests
+A basic `Makefile` is provided. Customize it for your project:
 
 ```bash
-# Run after deployment
-npm run test:smoke
+# Edit Makefile
+vim Makefile
 
-# Or manually
-curl -f https://api.example.com/health
-curl -f https://api.example.com/api/v1/status
-# Test critical endpoints...
+# See example
+cat Makefile.example
 ```
 
-## Deployment Notifications
+## Agent Hooks
 
-### Notify Team
+### Common Hooks
+- `run-tests.json` - Run tests
+- `security-check.json` - Security check
+- `lint-check.json` - Linting check
 
-Send notifications on:
-- Deployment started
-- Deployment completed
-- Deployment failed
-- Rollback initiated
-
-### Notification Example
-
-```bash
-# Slack notification
-curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "text": "🚀 Deployment to production started",
-    "attachments": [{
-      "color": "good",
-      "fields": [
-        {"title": "Version", "value": "v1.2.3", "short": true},
-        {"title": "Environment", "value": "production", "short": true},
-        {"title": "Deployed by", "value": "GitHub Actions", "short": true}
-      ]
-    }]
-  }'
-```
-
-## Deployment Best Practices
-
-1. **Always deploy during low-traffic hours** (if possible)
-2. **Never deploy on Fridays** (unless emergency)
-3. **Always have someone on-call** during deployment
-4. **Test rollback procedure** before deploying
-5. **Document all changes** in changelog
-6. **Monitor metrics** for at least 30 minutes post-deployment
-7. **Keep deployment window short** (< 30 minutes)
-8. **Use feature flags** for risky changes
-9. **Gradual rollout** for major changes
-10. **Always have rollback plan** ready
+### Execution
+- Via Command Palette: "Agent Hooks"
+- Manual: `make <command>`
 
 ---
 
-**Related guides:**
-- #[[file:project.md]] - Project standards including deployment checklist
-- #[[file:security-policies.md]] - Security requirements for deployment
+**For project-specific details, refer to:**
+- `structure.md` - Project structure
+- `tech.md` - Technical details
+- `deployment-workflow.md` - Project standards (this file)
+
+**For specialized topics:**
+- #[[file:security-policies.md]] - Security guidelines
+- #[[file:testing-standards.md]] - Testing approach and patterns
+- #[[file:tech-typescript.md]] - TypeScript-specific practices
