@@ -10,28 +10,6 @@ General best practices applicable to various programming languages and projects.
 
 ---
 
-## Project Setup
-
-### Existing Project
-
-```bash
-git clone <repository-url>
-cd <project-name>
-
-# Install dependencies (see language-specific guide)
-# Setup Git hooks: ~/.kiro/scripts/setup-git-hooks.sh
-# Run tests: make test
-```
-
-### New Project
-
-```bash
-# Install kiro-best-practices
-curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
-
-# See README for template setup
-```
-
 ## Essential Commands
 
 ```bash
@@ -59,6 +37,7 @@ make clean             # Clean build artifacts
 - Coverage target: 60% or higher
 - Test edge cases
 - Keep tests independent
+- See #[[file:testing-standards.md]] for details
 
 ### Security
 - Never hardcode sensitive information
@@ -100,3 +79,4 @@ git push origin feat/issue-123-feature
 **For specialized topics:**
 - #[[file:security-policies.md]] - Security guidelines
 - #[[file:deployment-workflow.md]] - Deployment procedures
+- #[[file:testing-standards.md]] - Testing approach and patterns

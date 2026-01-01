@@ -181,6 +181,8 @@ Action items
 
 ## Testing Requirements
 
+**For detailed testing standards, see**: #[[file:testing-standards.md]]
+
 ```bash
 make test              # All tests
 make test-unit         # Unit tests only
@@ -188,8 +190,6 @@ make test-security     # Security checks
 ```
 
 **Coverage Target**: 60% or higher
-
-**For security details, see**: #[[file:security-policies.md]]
 
 ## Documentation Requirements
 
@@ -351,4 +351,5 @@ cat Makefile.example
 **For specialized topics:**
 - #[[file:security-policies.md]] - Security guidelines
 - #[[file:deployment-workflow.md]] - Deployment procedures
+- #[[file:testing-standards.md]] - Testing approach and patterns
 - #[[file:tech-typescript.md]] - TypeScript-specific practices
