@@ -1,3 +1,7 @@
+---
+inclusion: always
+---
+
 # Common Project Standards (General)
 
 General project standards applicable to various projects.
@@ -185,21 +189,7 @@ make test-security     # Security checks
 
 **Coverage Target**: 60% or higher
 
-## Security Checks
-
-### Pre-commit/Pre-push
-- Run security checks automatically
-- Check for sensitive information
-- Validate dependencies
-
-### Manual Checks
-```bash
-# Check vulnerabilities
-npm audit
-
-# Fix automatically
-npm audit fix
-```
+**For security details, see**: `#security-policies`
 
 ## Documentation Requirements
 
@@ -241,6 +231,8 @@ All specs files should include issue/task number as prefix to prevent conflicts:
 
 ## Deployment Standards
 
+**For detailed deployment procedures, see**: `#deployment-workflow`
+
 ### Pre-deployment Checklist
 - [ ] All tests pass
 - [ ] Security checks pass
@@ -248,7 +240,7 @@ All specs files should include issue/task number as prefix to prevent conflicts:
 - [ ] Code reviewed
 - [ ] Changes tested locally
 
-### Deployment Process
+### Basic Deployment Flow
 1. Pull latest changes
 2. Run all tests
 3. Deploy to staging (if available)
@@ -355,3 +347,8 @@ cat Makefile.example
 - `structure.md` - Project structure
 - `tech.md` - Technical details
 - `project.md` - Project standards
+
+**For specialized topics, use:**
+- `#security-policies` - Security guidelines
+- `#deployment-workflow` - Deployment procedures
+- `#tech-typescript` - TypeScript-specific practices

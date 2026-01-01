@@ -1,3 +1,7 @@
+---
+inclusion: always
+---
+
 # Common Technical Practices (General)
 
 General best practices applicable to various programming languages and projects.
@@ -221,10 +225,11 @@ gitleaks detect --source . --verbose
 
 ### Security
 
+**For detailed security guidelines, see**: `#security-policies`
+
+Basic principles:
 - Never hardcode sensitive information
-- Use environment variables
-- Configure CORS appropriately
-- Implement rate limiting
+- Use environment variables for secrets
 - Sanitize input data
 - Apply principle of least privilege
 
@@ -279,13 +284,14 @@ gitleaks detect --source . --verbose
 
 ## Deployment Best Practices
 
+**For detailed deployment procedures, see**: `#deployment-workflow`
+
+Basic principles:
 1. Pull before push
 2. Always run tests before deployment
-3. Check infrastructure changes
-4. Gradual deployment
-5. Rollback preparation
-6. Monitor post-deployment
-7. Set up notifications
+3. Deploy to staging first
+4. Monitor post-deployment
+5. Have rollback plan ready
 
 ```bash
 # Correct push procedure
@@ -298,7 +304,10 @@ git push origin feat/issue-123-feature
 ---
 
 **For language-specific practices, refer to:**
-- `.kiro/steering/languages/typescript.md` - TypeScript/React/Node.js
-- `.kiro/steering/languages/python.md` - Python
-- `.kiro/steering/languages/go.md` - Go
-- (Add your language-specific guide)
+- `.kiro/steering/tech-typescript.md` - TypeScript/React/Node.js (use `#tech-typescript`)
+- `.kiro/steering/tech-python.md` - Python (use `#tech-python`)
+- `.kiro/steering/tech-go.md` - Go (use `#tech-go`)
+
+**For specialized topics, use:**
+- `#security-policies` - Security guidelines
+- `#deployment-workflow` - Deployment procedures
