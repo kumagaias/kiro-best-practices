@@ -305,4 +305,4 @@ See #[[file:deployment-workflow.md]] for postmortem structure.
 
 **Related guides:**
 - #[[file:deployment-workflow.md]] - Project standards including postmortem guidelines
-- #[[file:tech-typescript.md]] - TypeScript-specific security practices
+- #[[file:languages/typescript.md]] - TypeScript-specific security practices
