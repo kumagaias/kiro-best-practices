@@ -74,6 +74,9 @@ describe('calculateTotal', () => {
 });
 ```
 
+**For language-specific examples:**
+- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
+
 ### Integration Tests
 
 Test multiple components working together.
@@ -98,6 +101,9 @@ describe('User API', () => {
 });
 ```
 
+**For language-specific examples:**
+- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
+
 ### E2E Tests
 
 Test complete user workflows.
@@ -121,6 +127,9 @@ test('user can complete checkout', async () => {
   await expectSuccessMessage();
 });
 ```
+
+**For language-specific examples:**
+- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
 
 ## Testing Libraries
 
@@ -191,6 +200,9 @@ describe('ComponentName', () => {
   });
 });
 ```
+
+**For language-specific templates:**
+- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript templates
 
 ## Mocking Strategies
 
@@ -291,30 +303,34 @@ make test
 make test-unit
 
 # Run with coverage
-npm test -- --coverage
+make test -- --coverage
 
 # Run specific file
-npm test -- Button.test.ts
+make test -- path/to/test
 
 # Run in watch mode (development)
-npm test -- --watch
+make test -- --watch
 
 # Run E2E tests
-npm run test:e2e
+make test:e2e
 ```
+
+**For language-specific commands:**
+- #[[file:languages/testing-typescript.md]] - npm/Vitest/Jest commands
 
 ### CI/CD Integration
 
 ```yaml
-# .github/workflows/test.yml
+# Example: GitHub Actions
 - name: Run tests
-  run: |
-    npm ci
-    npm test -- --coverage
+  run: make test
     
 - name: Upload coverage
   uses: codecov/codecov-action@v3
 ```
+
+**For language-specific CI/CD:**
+- #[[file:languages/testing-typescript.md]] - Node.js CI/CD examples
 
 ## Debugging Tests
 
