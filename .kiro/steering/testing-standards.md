@@ -1,12 +1,17 @@
 ---
-inclusion: always
+inclusion: manual
 ---
 
 # Testing Standards
 
 Testing approach, patterns, and best practices for ensuring code quality.
 
-**Usage**: Include this guide by typing `#testing-standards` in chat or when working on tests.
+**Usage**: Include this guide by typing `#[[file:testing-standards.md]]` in chat or when working on tests.
+
+**Inclusion Behavior:**
+- **`inclusion: always`** - Automatically included (e.g., `tech.md`)
+- **`inclusion: manual`** - Only when referenced with `#[[file:...]]` (this file)
+- **`fileMatchPattern`** - Auto-included when file pattern matches (e.g., `.test.ts` files)
 
 ---
 
