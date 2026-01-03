@@ -208,14 +208,8 @@ if ! should_skip "steering/deployment-workflow.md"; then
   echo "  📝 Creating deployment-workflow.md with language: $AGENT_LANG..."
   cp "$REPO_DIR/.kiro/steering/deployment-workflow.md" "$KIRO_HOME/steering/deployment-workflow.md"
   
-  # Update the Agent chat language setting (use | as delimiter to avoid issues with /)
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    sed -i '' "s|- \*\*Agent chat\*\*: Project language (Japanese/English)|- **Agent chat**: $AGENT_LANG|" "$KIRO_HOME/steering/deployment-workflow.md"
-  else
-    # Linux
-    sed -i "s|- \*\*Agent chat\*\*: Project language (Japanese/English)|- **Agent chat**: $AGENT_LANG|" "$KIRO_HOME/steering/deployment-workflow.md"
-  fi
+  # Update the Agent chat language setting using perl (more reliable than sed)
+  perl -i -pe "s/- \*\*Agent chat\*\*: Project language \(Japanese\/English\)/- **Agent chat**: $ENV{AGENT_LANG}/" "$KIRO_HOME/steering/deployment-workflow.md"
 fi
 
 # Scripts
