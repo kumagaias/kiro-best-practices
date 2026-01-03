@@ -25,6 +25,39 @@ echo "🚀 Kiro Best Practices Installer"
 echo "================================"
 echo ""
 
+# Language selection
+if [ "$INTERACTIVE" = true ]; then
+  echo "🌐 Select your preferred language for Agent chat:"
+  echo "  1) English"
+  echo "  2) Japanese (日本語)"
+  echo "  3) Both (English/Japanese)"
+  echo ""
+  read -p "Choose [1-3] (default: 3): " -n 1 -r
+  echo ""
+  
+  case $REPLY in
+    1)
+      AGENT_LANG="English"
+      ;;
+    2)
+      AGENT_LANG="Japanese"
+      ;;
+    3|"")
+      AGENT_LANG="Japanese/English"
+      ;;
+    *)
+      echo "❌ Invalid choice. Using default (Both)."
+      AGENT_LANG="Japanese/English"
+      ;;
+  esac
+else
+  # Non-interactive mode: use environment variable or default
+  AGENT_LANG="${KIRO_LANG:-Japanese/English}"
+fi
+
+echo "✓ Agent chat language: $AGENT_LANG"
+echo ""
+
 # Check if ~/.kiro exists
 if [ ! -d "$KIRO_HOME" ]; then
   echo "📁 Creating ~/.kiro directory..."
@@ -170,6 +203,21 @@ should_skip "settings/mcp.local.json.example" || ln -sf "$REPO_DIR/.kiro/setting
 should_skip "steering/project.md" || ln -sf "$REPO_DIR/.kiro/steering/project.md" "$KIRO_HOME/steering/project.md"
 should_skip "steering/tech.md" || ln -sf "$REPO_DIR/.kiro/steering/tech.md" "$KIRO_HOME/steering/tech.md"
 
+# Create deployment-workflow.md with selected language
+if ! should_skip "steering/deployment-workflow.md"; then
+  echo "  📝 Creating deployment-workflow.md with language: $AGENT_LANG..."
+  cp "$REPO_DIR/.kiro/steering/deployment-workflow.md" "$KIRO_HOME/steering/deployment-workflow.md"
+  
+  # Update the Agent chat language setting
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    sed -i '' "s/- \*\*Agent chat\*\*: Project language (Japanese\/English)/- **Agent chat**: $AGENT_LANG/" "$KIRO_HOME/steering/deployment-workflow.md"
+  else
+    # Linux
+    sed -i "s/- \*\*Agent chat\*\*: Project language (Japanese\/English)/- **Agent chat**: $AGENT_LANG/" "$KIRO_HOME/steering/deployment-workflow.md"
+  fi
+fi
+
 # Scripts
 should_skip "scripts/security-check.sh" || ln -sf "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
 should_skip "scripts/setup-git-hooks.sh" || ln -sf "$REPO_DIR/.kiro/scripts/setup-git-hooks.sh" "$KIRO_HOME/scripts/setup-git-hooks.sh"
@@ -195,7 +243,10 @@ echo "  ✓ settings/       - MCP configuration templates"
 echo "  ✓ steering/       - Common development guidelines"
 echo "  ✓ scripts/        - Git hooks and utility scripts"
 echo ""
+echo "🌐 Agent chat language: $AGENT_LANG"
+echo ""
 echo "💡 Kiro will automatically use these shared files"
 echo ""
 echo "📚 Update: cd ~/.kiro/kiro-best-practices && git pull"
+echo "🔄 Change language: KIRO_LANG=English ./install.sh (or Japanese, Japanese/English)"
 echo ""

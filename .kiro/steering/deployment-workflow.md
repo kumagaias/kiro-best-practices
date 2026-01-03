@@ -348,4 +348,4 @@ cat Makefile.example
 **For specialized topics:**
 - #[[file:security-policies.md]] - Security guidelines
 - #[[file:testing-standards.md]] - Testing approach and patterns
-- #[[file:tech-typescript.md]] - TypeScript-specific practices
+- #[[file:languages/typescript-code-conventions.md]] - TypeScript coding standards

@@ -64,23 +64,10 @@ Test individual functions/components in isolation.
 - Use mocks/stubs
 - Test one thing at a time
 
-### Example: Unit Test
-
-```
-describe('calculateTotal', () => {
-  it('should sum item prices', () => {
-    const items = [{ price: 10 }, { price: 20 }];
-    expect(calculateTotal(items)).toBe(30);
-  });
-
-  it('should return 0 for empty array', () => {
-    expect(calculateTotal([])).toBe(0);
-  });
-});
-```
-
 **For language-specific examples:**
-- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript unit test examples
+- Python: pytest examples (coming soon)
+- Go: testing package examples (coming soon)
 
 ### Integration Tests
 
@@ -92,22 +79,10 @@ Test multiple components working together.
 - Test component interactions
 - Verify data flow
 
-### Example: Integration Test
-
-```
-describe('User API', () => {
-  it('should create and retrieve user', async () => {
-    const response = await createUser({ name: 'John' });
-    expect(response.status).toBe(201);
-    
-    const user = await getUser(response.body.id);
-    expect(user.name).toBe('John');
-  });
-});
-```
-
 **For language-specific examples:**
-- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript integration test examples
+- Python: pytest integration examples (coming soon)
+- Go: integration test examples (coming soon)
 
 ### E2E Tests
 
@@ -119,22 +94,10 @@ Test complete user workflows.
 - Test critical user paths
 - Run less frequently
 
-### Example: E2E Test
-
-```
-test('user can complete checkout', async () => {
-  await navigateTo('/products');
-  await clickAddToCart();
-  await clickCheckout();
-  await fillCheckoutForm();
-  await submitOrder();
-  
-  await expectSuccessMessage();
-});
-```
-
 **For language-specific examples:**
-- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript examples
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript E2E test examples (Playwright)
+- Python: Selenium examples (coming soon)
+- Go: E2E test examples (coming soon)
 
 ## Testing Libraries
 
@@ -143,7 +106,7 @@ test('user can complete checkout', async () => {
 Choose testing libraries appropriate for your language/framework:
 
 **JavaScript/TypeScript:**
-- See #[[file:languages/testing-typescript.md]] for detailed setup
+- See #[[file:languages/typescript-testing-standards.md]] for detailed setup
 
 **Python:**
 - pytest, unittest
@@ -157,62 +120,48 @@ Choose testing libraries appropriate for your language/framework:
 
 ### File Structure
 
-```
-src/
-├── components/
-│   ├── Button.tsx
-│   └── Button.test.tsx          # Co-located with component
-├── utils/
-│   ├── formatters.ts
-│   └── formatters.test.ts       # Co-located with utility
-└── __tests__/
-    ├── integration/
-    │   └── api.test.ts          # Integration tests
-    └── e2e/
-        └── checkout.spec.ts     # E2E tests
-```
+**General Pattern:**
+- Co-locate unit tests with source files
+- Separate integration and E2E tests into dedicated directories
+- Use consistent naming conventions
+
+**For language-specific structures:**
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript project structure
 
 ### Naming Conventions
 
-- Unit/Integration: `*.test.ts` or `*.spec.ts`
-- E2E: `*.spec.ts` (in separate directory)
-- Test suites: Use `describe()` blocks
-- Test cases: Use `it()` or `test()`
+**General Guidelines:**
+- Use clear, descriptive test file names
+- Match test file names to source file names
+- Group related tests together
+- Use consistent suffixes (`.test`, `.spec`, `_test`, etc.)
 
-### Test File Template
+**For language-specific conventions:**
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript naming (`.test.ts`, `.spec.ts`)
+- Python: `test_*.py` or `*_test.py`
+- Go: `*_test.go`
 
-```
-describe('ComponentName', () => {
-  beforeEach(() => {
-    // Setup
-  });
+### Test Structure Pattern
 
-  afterEach(() => {
-    // Cleanup
-  });
+**Arrange-Act-Assert (AAA) Pattern:**
+1. **Arrange**: Set up test data and conditions
+2. **Act**: Execute the code being tested
+3. **Assert**: Verify the results
 
-  describe('feature group', () => {
-    it('should behave correctly', () => {
-      // Arrange
-      const input = setupInput();
-      
-      // Act
-      const result = performAction(input);
-      
-      // Assert
-      expect(result).toBe(expected);
-    });
-  });
-});
-```
+**Setup and Teardown:**
+- Use setup hooks for common initialization
+- Use teardown hooks for cleanup
+- Keep setup minimal and focused
 
 **For language-specific templates:**
-- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript templates
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript test templates
+- Python: pytest fixture examples (coming soon)
+- Go: test function examples (coming soon)
 
 ## Mocking Strategies
 
 **See language-specific guides for detailed mocking patterns:**
-- #[[file:languages/testing-typescript.md]] - TypeScript/JavaScript mocking
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript mocking
 
 ### General Principles
 
@@ -223,55 +172,46 @@ describe('ComponentName', () => {
 
 ## Assertion Styles
 
-### Preferred Patterns
+### Assertion Principles
 
-```
-// ✅ Good: Clear and specific
-expect(result).toBe(42);
-expect(user.name).toBe('John');
-expect(items).toHaveLength(3);
+**Best Practices:**
+- ✅ Use specific assertions over generic ones
+- ✅ Assert on exact values when possible
+- ✅ Test both success and failure cases
+- ❌ Avoid vague assertions (e.g., "truthy" checks)
 
-// ❌ Avoid: Vague
-expect(result).toBeTruthy();
-```
+**Common Assertion Types:**
+- **Equality**: Exact match vs deep equality
+- **Truthiness**: Boolean checks, null/undefined checks
+- **Comparisons**: Greater than, less than, ranges
+- **Strings**: Contains, matches pattern
+- **Collections**: Length, contains element
+- **Functions**: Called, called with arguments
+- **Async**: Resolves, rejects, throws
 
-### Common Assertions
-
-- Equality: `toBe()`, `toEqual()`
-- Truthiness: `toBeTruthy()`, `toBeFalsy()`, `toBeNull()`
-- Numbers: `toBeGreaterThan()`, `toBeLessThan()`
-- Strings: `toContain()`, `toMatch()`
-- Arrays: `toHaveLength()`, `toContain()`
-- Functions: `toHaveBeenCalled()`, `toHaveBeenCalledWith()`
-- Async: `resolves.toBe()`, `rejects.toThrow()`
+**For language-specific assertion APIs:**
+- #[[file:languages/typescript-testing-standards.md]] - Jest/Vitest assertion examples
 
 ## Test Data Management
 
 ### Test Fixtures
 
-Create reusable test data:
-
-```
-// fixtures/users
-export const mockUser = {
-  id: '1',
-  name: 'John Doe',
-  email: 'john@example.com',
-};
-```
+**Best Practices:**
+- Create reusable test data in dedicated files
+- Use realistic but minimal data
+- Avoid coupling fixtures to specific tests
+- Version control fixture files
 
 ### Factory Functions
 
-Generate test data dynamically:
+**Best Practices:**
+- Generate test data dynamically
+- Support overrides for flexibility
+- Use libraries like Faker for realistic data
+- Keep factories simple and focused
 
-```
-export const createUser = (overrides = {}) => ({
-  id: generateId(),
-  name: 'Test User',
-  email: 'test@example.com',
-  ...overrides,
-});
-```
+**For language-specific examples:**
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript factory patterns
 
 ## Best Practices
 
@@ -321,7 +261,7 @@ make test:e2e
 ```
 
 **For language-specific commands:**
-- #[[file:languages/testing-typescript.md]] - npm/Vitest/Jest commands
+- #[[file:languages/typescript-testing-standards.md]] - npm/Vitest/Jest commands
 
 ### CI/CD Integration
 
@@ -335,29 +275,23 @@ make test:e2e
 ```
 
 **For language-specific CI/CD:**
-- #[[file:languages/testing-typescript.md]] - Node.js CI/CD examples
+- #[[file:languages/typescript-testing-standards.md]] - Node.js CI/CD examples
 
 ## Debugging Tests
 
 ### Debug Strategies
 
-```
-// Print debug information
-console.log('Value:', value);
+**General Techniques:**
+- Print debug information to console
+- Use debugger/breakpoints
+- Run single test in isolation
+- Skip failing tests temporarily
+- Check test setup and teardown
+- Verify mock configurations
+- Review test data and fixtures
 
-// Use debugger
-debugger; // Pauses execution
-
-// Run single test
-it.only('should work', () => {
-  // Only this test runs
-});
-
-// Skip test
-it.skip('should work', () => {
-  // This test is skipped
-});
-```
+**For language-specific debugging:**
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript debugging with `.only()`, `.skip()`
 
 ## Performance
 
@@ -379,5 +313,5 @@ it.skip('should work', () => {
 
 **Related guides:**
 - #[[file:deployment-workflow.md]] - Testing requirements and coverage targets
-- #[[file:languages/testing-typescript.md]] - TypeScript testing patterns
+- #[[file:languages/typescript-testing-standards.md]] - TypeScript testing patterns
 - #[[file:security-policies.md]] - Security testing considerations

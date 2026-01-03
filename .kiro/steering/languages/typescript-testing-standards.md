@@ -1,13 +1,13 @@
 ---
-inclusion: manual
-fileMatchPattern: '\.(test|spec)\.(ts|tsx|js|jsx)$'
+inclusion: fileMatch
+fileMatchPattern: '**/*.(test|spec).(ts|tsx|js|jsx)'
 ---
 
 # TypeScript Testing Standards
 
 TypeScript-specific testing patterns, libraries, and best practices.
 
-**Usage**: Automatically included when working on test files, or use `#testing-typescript` in chat.
+**Usage**: Automatically included when working on test files, or use `#typescript-testing-standards` in chat.
 
 ---
 
@@ -402,5 +402,6 @@ it('should have correct type', () => {
 
 **Related guides:**
 - #[[file:../testing-standards.md]] - General testing standards
-- #[[file:typescript.md]] - TypeScript best practices
+- #[[file:typescript-code-conventions.md]] - TypeScript coding standards
+- #[[file:typescript-security-policies.md]] - TypeScript security practices
 - #[[file:../security-policies.md]] - Security testing considerations

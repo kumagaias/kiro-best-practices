@@ -39,28 +39,15 @@ Security best practices and policies for application development.
 - Implement refresh token rotation
 - Validate token signatures
 
-### Example: Secure Authentication
+### Implementation Guidelines
 
-```typescript
-// Password hashing
-import bcrypt from 'bcrypt';
+- Hash passwords with strong algorithms (bcrypt with 12+ rounds, Argon2)
+- Generate JWT tokens with short expiration (15 minutes recommended)
+- Store refresh tokens securely with rotation
+- Implement secure session storage
+- Use HTTPS-only cookies for tokens
 
-const hashPassword = async (password: string): Promise<string> => {
-  const saltRounds = 12;
-  return await bcrypt.hash(password, saltRounds);
-};
-
-// JWT token generation
-import jwt from 'jsonwebtoken';
-
-const generateToken = (userId: string): string => {
-  return jwt.sign(
-    { userId },
-    process.env.JWT_SECRET!,
-    { expiresIn: '15m' }
-  );
-};
-```
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Data Validation
 
@@ -72,27 +59,16 @@ const generateToken = (userId: string): string => {
 4. **Length limits**: Enforce maximum lengths for strings
 5. **Format validation**: Use regex for email, phone, etc.
 
-### Example: Input Validation
+### Validation Best Practices
 
-```typescript
-import { z } from 'zod';
+- Use schema validation libraries (Zod, Joi, etc.)
+- Validate email format and length (max 255 chars)
+- Enforce password requirements (min 12 chars)
+- Validate numeric ranges (age, quantities, etc.)
+- Use enums for restricted values (roles, statuses, etc.)
+- Return clear error messages without exposing internals
 
-const userSchema = z.object({
-  email: z.string().email().max(255),
-  password: z.string().min(12).max(128),
-  age: z.number().int().min(0).max(150),
-  role: z.enum(['user', 'admin', 'moderator']),
-});
-
-// Validate input
-const validateUser = (data: unknown) => {
-  try {
-    return userSchema.parse(data);
-  } catch (error) {
-    throw new Error('Invalid user data');
-  }
-};
-```
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Input Sanitization
 
@@ -104,26 +80,22 @@ const validateUser = (data: unknown) => {
 - **Path Traversal**: Validate file paths, use allowlists
 - **LDAP Injection**: Escape special characters
 
-### Example: XSS Prevention
+### Sanitization Best Practices
 
-```typescript
-import DOMPurify from 'isomorphic-dompurify';
+**XSS Prevention:**
+- Use HTML sanitization libraries (DOMPurify, etc.)
+- Allow only safe HTML tags (b, i, em, strong, a)
+- Restrict attributes (href only for links)
+- Escape user input in templates
+- Use Content Security Policy (CSP) headers
 
-const sanitizeHtml = (dirty: string): string => {
-  return DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],
-    ALLOWED_ATTR: ['href'],
-  });
-};
+**SQL Injection Prevention:**
+- Always use parameterized queries or prepared statements
+- Use ORM frameworks (Prisma, TypeORM, SQLAlchemy, etc.)
+- Never concatenate user input into SQL strings
+- Validate and sanitize all database inputs
 
-// SQL Injection Prevention (using Prisma)
-const getUser = async (email: string) => {
-  // Parameterized query - safe from SQL injection
-  return await prisma.user.findUnique({
-    where: { email },
-  });
-};
-```
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Vulnerability Prevention
 
@@ -142,19 +114,19 @@ const getUser = async (email: string) => {
 
 ### Dependency Security
 
-```bash
-# Check vulnerabilities
-npm audit
+**General Practices:**
+- Regularly scan dependencies for vulnerabilities
+- Keep all dependencies up to date
+- Review security advisories for your ecosystem
+- Use lock files to ensure consistent versions
+- Remove unused dependencies
+- Use tools like Snyk or Dependabot
 
-# Fix automatically
-npm audit fix
-
-# Fix with breaking changes
-npm audit fix --force
-
-# Check for outdated packages
-npm outdated
-```
+**Language-specific commands:**
+- **Node.js/npm**: `npm audit`, `npm audit fix`
+- **Python/pip**: `pip-audit`, `safety check`
+- **Ruby/bundler**: `bundle audit`
+- **Go**: `go list -m all | nancy sleuth`
 
 ## Secure Coding Practices
 
@@ -164,43 +136,36 @@ npm outdated
 - Log errors securely (no sensitive data)
 - Use generic error messages for users
 - Implement proper error boundaries
+- Never include credentials or secrets in error messages
+- Log detailed errors server-side only
+- Return appropriate HTTP status codes
 
-```typescript
-// Bad: Exposes internal details
-throw new Error(`Database connection failed: ${dbConfig.password}`);
+**Examples:**
+- ❌ Bad: "Database connection failed: password123@localhost"
+- ✅ Good: "Service temporarily unavailable" (user-facing)
+- ✅ Good: Log detailed error server-side for debugging
 
-// Good: Generic message, log details separately
-logger.error('Database connection failed', { error: err.message });
-throw new Error('Service temporarily unavailable');
-```
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ### Logging Security
 
-```typescript
-const logger = {
-  info: (message: string, meta?: object) => {
-    // Remove sensitive data before logging
-    const sanitized = removeSensitiveData(meta);
-    console.log(JSON.stringify({ level: 'info', message, ...sanitized }));
-  },
-  error: (message: string, error?: Error, meta?: object) => {
-    const sanitized = removeSensitiveData(meta);
-    console.error(JSON.stringify({ 
-      level: 'error', 
-      message, 
-      error: error?.message,
-      stack: process.env.NODE_ENV === 'development' ? error?.stack : undefined,
-      ...sanitized 
-    }));
-  },
-};
+**Best Practices:**
+- Remove sensitive data before logging (passwords, tokens, secrets, API keys)
+- Use structured logging (JSON format)
+- Include log levels (info, warn, error)
+- Log stack traces only in development
+- Implement log rotation and retention policies
+- Secure log storage with appropriate access controls
+- Monitor logs for suspicious activity
 
-const removeSensitiveData = (data?: object) => {
-  if (!data) return {};
-  const { password, token, secret, ...safe } = data as any;
-  return safe;
-};
-```
+**Never log:**
+- Passwords or password hashes
+- Authentication tokens or session IDs
+- API keys or secrets
+- Credit card numbers or PII
+- Internal system paths or configurations
+
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ### Environment Variables
 
@@ -220,45 +185,41 @@ API_KEY=actual-api-key
 
 ### Required Headers
 
-```typescript
-// Express.js example
-import helmet from 'helmet';
+All web applications should implement these security headers:
 
-app.use(helmet());
+- **X-Content-Type-Options**: `nosniff` - Prevents MIME type sniffing
+- **X-Frame-Options**: `DENY` or `SAMEORIGIN` - Prevents clickjacking
+- **X-XSS-Protection**: `1; mode=block` - Enables XSS filtering
+- **Strict-Transport-Security**: `max-age=31536000; includeSubDomains` - Enforces HTTPS
+- **Content-Security-Policy**: `default-src 'self'` - Controls resource loading
+- **Referrer-Policy**: `no-referrer` or `strict-origin-when-cross-origin`
+- **Permissions-Policy**: Restrict browser features
 
-// Or manually
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('Content-Security-Policy', "default-src 'self'");
-  next();
-});
-```
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Rate Limiting
 
-```typescript
-import rateLimit from 'express-rate-limit';
+### Best Practices
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP',
-});
+- Implement rate limiting on all public APIs
+- Use stricter limits for authentication endpoints
+- Track by IP address or user ID
+- Return appropriate HTTP 429 (Too Many Requests) status
+- Include Retry-After header in responses
 
-app.use('/api/', limiter);
+### Recommended Limits
 
-// Stricter limit for auth endpoints
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: 'Too many login attempts',
-});
+**General API endpoints:**
+- 100 requests per 15 minutes per IP
 
-app.use('/api/auth/login', authLimiter);
-```
+**Authentication endpoints:**
+- 5 login attempts per 15 minutes per IP
+- Implement account lockout after repeated failures
+
+**Public endpoints:**
+- 10-20 requests per minute per IP
+
+**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Security Checklist
 
@@ -305,4 +266,4 @@ See #[[file:deployment-workflow.md]] for postmortem structure.
 
 **Related guides:**
 - #[[file:deployment-workflow.md]] - Project standards including postmortem guidelines
-- #[[file:languages/typescript.md]] - TypeScript-specific security practices
+- #[[file:languages/typescript-security-policies.md]] - TypeScript-specific security practices
