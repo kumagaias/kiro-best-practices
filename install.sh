@@ -95,7 +95,7 @@ for file in hooks/pre-commit-security.json hooks/run-all-tests.json hooks/run-te
             hooks/commit-push-pr.json hooks/documentation-update-reminder.json hooks/setup-on-session-start.json \
             settings/mcp.json \
             steering/project.md steering/tech.md \
-            scripts/security-check.sh scripts/setup-git-hooks.sh; do
+            scripts/security-check.sh; do
   [ -e "$KIRO_HOME/$file" ] && CONFLICTS+=("$file")
 done
 
@@ -214,7 +214,6 @@ fi
 
 # Scripts
 should_skip "scripts/security-check.sh" || ln -sf "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
-should_skip "scripts/setup-git-hooks.sh" || ln -sf "$REPO_DIR/.kiro/scripts/setup-git-hooks.sh" "$KIRO_HOME/scripts/setup-git-hooks.sh"
 
 # Set execute permissions on scripts
 chmod +x "$KIRO_HOME/scripts"/*.sh 2>/dev/null || true

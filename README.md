@@ -6,15 +6,14 @@ Shared configuration and best practices for Kiro AI development environment.
 
 - **Agent Hooks** - JSON-based hooks for Kiro agent automation
 - **MCP Settings** - Model Context Protocol configuration templates
-- **Steering Files** - Common development guidelines (project.md, tech.md)
-- **Git Hooks** - Security checks and pre-commit/pre-push scripts
-- **Project Templates** - Husky, GitHub, Makefile, .tool-versions
+- **Steering Files** - Common development guidelines and best practices
+- **Scripts** - Security checks and utility scripts
+- **Project Templates** - Makefile, .tool-versions, GitHub templates
 
 ## Requirements
 
 - Git
 - Bash shell
-- Node.js (for projects using Git hooks)
 
 ## Installation
 
@@ -26,23 +25,12 @@ curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/
 
 This will:
 1. Clone this repository to `~/.kiro/kiro-best-practices/`
-2. Create symlinks from `~/.kiro/` to repository files (hooks, settings, steering, scripts, templates)
+2. Create symlinks from `~/.kiro/` to repository files (hooks, settings, steering, scripts)
+3. Prompt for language selection (English/Japanese/Both) for agent chat
 
 **Note**: Files are symlinked, so updates to the repository automatically reflect in `~/.kiro/`
 
 ## Usage
-
-### Setup Git Hooks in Your Project
-
-```bash
-cd /path/to/your/project
-~/.kiro/scripts/setup-git-hooks.sh
-```
-
-This will:
-- Install husky (if not already installed)
-- Copy hook templates from `~/.kiro/templates/husky/`
-- Configure hooks to call `~/.kiro/scripts/security-check.sh`
 
 ### Use MCP Configuration
 

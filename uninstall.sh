@@ -60,7 +60,6 @@ rm -f "$KIRO_HOME/steering/project.md" 2>/dev/null && echo "  ✓ Removed steeri
 rm -f "$KIRO_HOME/steering/tech.md" 2>/dev/null && echo "  ✓ Removed steering/tech.md" || true
 
 rm -f "$KIRO_HOME/scripts/security-check.sh" 2>/dev/null && echo "  ✓ Removed scripts/security-check.sh" || true
-rm -f "$KIRO_HOME/scripts/setup-git-hooks.sh" 2>/dev/null && echo "  ✓ Removed scripts/setup-git-hooks.sh" || true
 
 # Remove empty directories
 rmdir "$KIRO_HOME/hooks" 2>/dev/null && echo "  ✓ Removed hooks directory" || true
@@ -72,5 +71,4 @@ echo ""
 echo "✅ Uninstallation complete!"
 echo ""
 echo "💡 Note: Your project-specific .kiro/ directories were not removed."
-echo "   You may want to clean up Git hooks in your projects manually."
 echo ""
