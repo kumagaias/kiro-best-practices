@@ -23,6 +23,10 @@ Install shared configuration to `~/.kiro/`:
 curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
 ```
 
+**Language Configuration:**
+- `KIRO_CHAT_LANG`: Agent chat language (default: English)
+- `KIRO_DOCUMENT_LANG`: Documentation language (default: English, currently English only)
+
 To use Japanese for agent chat:
 
 ```bash
@@ -35,7 +39,7 @@ KIRO_CHAT_LANG=Japanese curl -fsSL https://raw.githubusercontent.com/kumagaias/k
 cd ~/.kiro/kiro-best-practices && git pull
 ```
 
-To change language: Re-run install with `KIRO_LANG=English` (or `Japanese`)
+To change language: Re-run install with `KIRO_CHAT_LANG=Japanese`
 
 ## Uninstall
 
