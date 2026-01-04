@@ -29,56 +29,6 @@ To use Japanese for agent chat:
 KIRO_CHAT_LANG=Japanese curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
 ```
 
-**Note**: Documentation language is currently English only. Japanese documentation support coming soon.
-
-This will:
-1. Clone this repository to `~/.kiro/kiro-best-practices/`
-2. Create symlinks from `~/.kiro/` to repository files
-3. Configure agent chat language preference
-
-**Note**: Files are symlinked, so updates automatically reflect in `~/.kiro/`
-
-## Usage
-
-### Use MCP Configuration
-
-Common MCP settings are installed to `~/.kiro/settings/mcp.json` and automatically used by Kiro.
-
-For project-specific MCP settings:
-```bash
-# Create project-specific MCP configuration
-mkdir -p .kiro/settings
-vim .kiro/settings/mcp.json
-```
-
-Kiro will merge both configurations (project settings override common settings).
-
-### Use Project Templates
-
-```bash
-# Copy Makefile template
-cp ~/.kiro/kiro-best-practices/.kiro/templates/Makefile.example ./Makefile
-
-# Copy tool versions
-cp ~/.kiro/kiro-best-practices/.kiro/templates/.tool-versions.example ./.tool-versions
-
-# Copy GitHub templates
-cp -r ~/.kiro/kiro-best-practices/.kiro/templates/github/ ./.github/
-```
-
-### Steering Files
-
-Kiro will automatically read steering files from:
-- `~/.kiro/steering/` - Common guidelines (shared across all projects)
-- `.kiro/steering/` - Project-specific guidelines
-
-Create project-specific steering files:
-```bash
-mkdir -p .kiro/steering
-# Create .kiro/steering/structure.md
-# Create .kiro/steering/project.md (project-specific overrides)
-```
-
 ## Update
 
 ```bash
