@@ -26,6 +26,12 @@ To use Japanese for agent chat:
 KIRO_CHAT_LANG=Japanese curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
 ```
 
+**Note**: If the language setting doesn't work, download and run the script directly:
+```bash
+curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh -o /tmp/install-kiro.sh
+KIRO_CHAT_LANG=Japanese bash /tmp/install-kiro.sh
+```
+
 ## Update
 
 ```bash
