@@ -64,6 +64,9 @@ fi
 rm -f "$KIRO_HOME/hooks/pre-commit-security.json" 2>/dev/null && echo "  ✓ Removed hooks/pre-commit-security.json" || true
 rm -f "$KIRO_HOME/hooks/run-all-tests.json" 2>/dev/null && echo "  ✓ Removed hooks/run-all-tests.json" || true
 rm -f "$KIRO_HOME/hooks/run-tests.json" 2>/dev/null && echo "  ✓ Removed hooks/run-tests.json" || true
+rm -f "$KIRO_HOME/hooks/commit-push-pr.json" 2>/dev/null && echo "  ✓ Removed hooks/commit-push-pr.json" || true
+rm -f "$KIRO_HOME/hooks/documentation-update-reminder.json" 2>/dev/null && echo "  ✓ Removed hooks/documentation-update-reminder.json" || true
+rm -f "$KIRO_HOME/hooks/setup-on-session-start.json" 2>/dev/null && echo "  ✓ Removed hooks/setup-on-session-start.json" || true
 
 rm -f "$KIRO_HOME/settings/mcp.json" 2>/dev/null && echo "  ✓ Removed settings/mcp.json" || true
 rm -f "$KIRO_HOME/settings/mcp.local.json.example" 2>/dev/null && echo "  ✓ Removed settings/mcp.local.json.example" || true
