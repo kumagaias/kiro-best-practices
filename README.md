@@ -1,19 +1,12 @@
 # Kiro Best Practices
 
-Shared configuration and best practices for Kiro AI development environment.
+Issue/PR-based development workflow for Kiro AI + GitHub.
 
-## What's Included
-
-- **Agent Hooks** - JSON-based hooks for Kiro agent automation
-- **MCP Settings** - Model Context Protocol configuration templates
-- **Steering Files** - Common development guidelines and best practices
-- **Scripts** - Security checks and utility scripts
-- **Project Templates** - Makefile, .tool-versions, GitHub templates
+Shared configuration and best practices for Kiro development environment.
 
 ## Requirements
 
-- Git
-- Bash shell
+- [GitHub CLI](https://cli.github.com/) - `brew install gh`
 
 ## Installation
 
