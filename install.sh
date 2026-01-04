@@ -47,12 +47,22 @@ if [ "$INTERACTIVE" = true ]; then
       ;;
   esac
 else
-  # Non-interactive mode: use environment variable or default
-  CHAT_LANG="${KIRO_CHAT_LANG:-English}"
+  # Non-interactive mode: check if variables were passed via bash -s
+  # Usage: curl ... | KIRO_CHAT_LANG=Japanese bash
+  # Or: curl ... | bash -s Japanese
+  if [ -n "$1" ]; then
+    CHAT_LANG="$1"
+  else
+    CHAT_LANG="${KIRO_CHAT_LANG:-English}"
+  fi
 fi
 
 # Document language (currently only English available)
-DOC_LANG="${KIRO_DOCUMENT_LANG:-English}"
+if [ -n "$2" ]; then
+  DOC_LANG="$2"
+else
+  DOC_LANG="${KIRO_DOCUMENT_LANG:-English}"
+fi
 
 echo "✓ Agent chat language: $CHAT_LANG"
 echo "✓ Documentation language: $DOC_LANG"
@@ -253,5 +263,5 @@ echo ""
 echo "💡 Kiro will automatically use these shared files"
 echo ""
 echo "📚 Update: cd ~/.kiro/kiro-best-practices && git pull"
-echo "🔄 Change language: KIRO_CHAT_LANG=Japanese ./install.sh"
+echo "🔄 Change language: curl ... | KIRO_CHAT_LANG=Japanese bash"
 echo ""
