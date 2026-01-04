@@ -25,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/
 
 **Language Configuration:**
 - `KIRO_CHAT_LANG`: Agent chat language (default: English)
-- `KIRO_DOCUMENT_LANG`: Documentation language (default: English, currently English only)
+- `KIRO_DOCUMENT_LANG`: Documentation language (default: English)
 
 To use Japanese for agent chat:
 
