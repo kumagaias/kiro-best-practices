@@ -82,3 +82,4 @@ git push origin feat/issue-123-feature
 - #[[file:security-policies.md]] - Security guidelines
 - #[[file:deployment-workflow.md]] - Project standards and deployment
 - #[[file:testing-standards.md]] - Testing approach and patterns
+ 
