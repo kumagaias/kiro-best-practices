@@ -105,6 +105,7 @@ for file in hooks/pre-commit-security.json hooks/run-all-tests.json hooks/run-te
             hooks/commit-push-pr.json hooks/documentation-update-reminder.json hooks/setup-on-session-start.json \
             settings/mcp.json \
             steering/project.md steering/tech.md steering/deployment-workflow.md steering/language.md \
+            steering/security-policies.md \
             scripts/security-check.sh; do
   [ -e "$KIRO_HOME/$file" ] && CONFLICTS+=("$file")
 done
@@ -207,12 +208,12 @@ should_skip "hooks/setup-on-session-start.json" || cp "$REPO_DIR/.kiro/hooks/set
 
 # Settings
 should_skip "settings/mcp.json" || cp "$REPO_DIR/.kiro/settings/mcp.json" "$KIRO_HOME/settings/mcp.json"
-should_skip "settings/mcp.local.json.example" || cp "$REPO_DIR/.kiro/settings/mcp.local.json.example" "$KIRO_HOME/settings/mcp.local.json.example"
 
 # Steering
 should_skip "steering/project.md" || cp "$REPO_DIR/.kiro/steering/project.md" "$KIRO_HOME/steering/project.md"
 should_skip "steering/tech.md" || cp "$REPO_DIR/.kiro/steering/tech.md" "$KIRO_HOME/steering/tech.md"
 should_skip "steering/deployment-workflow.md" || cp "$REPO_DIR/.kiro/steering/deployment-workflow.md" "$KIRO_HOME/steering/deployment-workflow.md"
+should_skip "steering/security-policies.md" || cp "$REPO_DIR/.kiro/steering/security-policies.md" "$KIRO_HOME/steering/security-policies.md"
 
 # Language configuration - copy template and customize
 if ! should_skip "steering/language.md"; then
