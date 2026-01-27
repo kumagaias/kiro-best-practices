@@ -37,9 +37,15 @@ curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/
 
 ## Update
 
+To update to the latest version, run the install script again:
+
 ```bash
-cd ~/.kiro/kiro-best-practices && git pull
+curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | bash
 ```
+
+This will:
+1. Update the repository in `~/.kiro/kiro-best-practices`
+2. Copy updated files to `~/.kiro/` (you'll be prompted for conflicts)
 
 ## Uninstall
 
@@ -61,15 +67,15 @@ Note: This will NOT remove project-specific `.kiro/` directories.
 │       ├── settings/
 │       ├── steering/
 │       ├── scripts/
-│       ├── templates/       # Templates (not symlinked)
-│       └── docs/            # Documentation (not symlinked)
-├── hooks/          -> kiro-best-practices/.kiro/hooks/*.json
-├── settings/       -> kiro-best-practices/.kiro/settings/*.json
-├── steering/       -> kiro-best-practices/.kiro/steering/*.md
-└── scripts/        -> kiro-best-practices/.kiro/scripts/*.sh
+│       ├── templates/       # Templates (not copied)
+│       └── docs/            # Documentation (not copied)
+├── hooks/          # Copied from kiro-best-practices/.kiro/hooks/*.json
+├── settings/       # Copied from kiro-best-practices/.kiro/settings/*.json
+├── steering/       # Copied from kiro-best-practices/.kiro/steering/*.md
+└── scripts/        # Copied from kiro-best-practices/.kiro/scripts/*.sh
 ```
 
-**Note**: Only files that Kiro reads are symlinked. Templates and docs are accessed directly from the repository.
+**Note**: Files are copied (not symlinked) to ensure compatibility across all projects. Templates and docs remain in the repository.
 
 ## License
 
