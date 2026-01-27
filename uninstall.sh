@@ -54,7 +54,7 @@ fi
 echo ""
 echo "🗑️  Removing files..."
 
-# Remove symlinks first (before removing repository)
+# Remove copied files
 rm -f "$KIRO_HOME/hooks/pre-commit-security.json" 2>/dev/null && echo "  ✓ Removed hooks/pre-commit-security.json" || true
 rm -f "$KIRO_HOME/hooks/run-all-tests.json" 2>/dev/null && echo "  ✓ Removed hooks/run-all-tests.json" || true
 rm -f "$KIRO_HOME/hooks/run-tests.json" 2>/dev/null && echo "  ✓ Removed hooks/run-tests.json" || true

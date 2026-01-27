@@ -136,7 +136,7 @@ if [ ${#CONFLICTS[@]} -gt 0 ]; then
   else
     # Interactive mode: ask user
     echo "Options:"
-    echo "  1) Overwrite all (replace with symlinks)"
+    echo "  1) Overwrite all (replace with new copies)"
     echo "  2) Skip all (keep existing files)"
     echo "  3) Ask for each file"
     echo ""
@@ -194,25 +194,25 @@ should_skip() {
   return 1
 }
 
-# Create symlinks for individual files
-echo "  🔗 Creating symlinks..."
+# Copy files
+echo "  📄 Copying files..."
 
 # Hooks
-should_skip "hooks/pre-commit-security.json" || ln -sf "$REPO_DIR/.kiro/hooks/pre-commit-security.json" "$KIRO_HOME/hooks/pre-commit-security.json"
-should_skip "hooks/run-all-tests.json" || ln -sf "$REPO_DIR/.kiro/hooks/run-all-tests.json" "$KIRO_HOME/hooks/run-all-tests.json"
-should_skip "hooks/run-tests.json" || ln -sf "$REPO_DIR/.kiro/hooks/run-tests.json" "$KIRO_HOME/hooks/run-tests.json"
-should_skip "hooks/commit-push-pr.json" || ln -sf "$REPO_DIR/.kiro/hooks/commit-push-pr.json" "$KIRO_HOME/hooks/commit-push-pr.json"
-should_skip "hooks/documentation-update-reminder.json" || ln -sf "$REPO_DIR/.kiro/hooks/documentation-update-reminder.json" "$KIRO_HOME/hooks/documentation-update-reminder.json"
-should_skip "hooks/setup-on-session-start.json" || ln -sf "$REPO_DIR/.kiro/hooks/setup-on-session-start.json" "$KIRO_HOME/hooks/setup-on-session-start.json"
+should_skip "hooks/pre-commit-security.json" || cp "$REPO_DIR/.kiro/hooks/pre-commit-security.json" "$KIRO_HOME/hooks/pre-commit-security.json"
+should_skip "hooks/run-all-tests.json" || cp "$REPO_DIR/.kiro/hooks/run-all-tests.json" "$KIRO_HOME/hooks/run-all-tests.json"
+should_skip "hooks/run-tests.json" || cp "$REPO_DIR/.kiro/hooks/run-tests.json" "$KIRO_HOME/hooks/run-tests.json"
+should_skip "hooks/commit-push-pr.json" || cp "$REPO_DIR/.kiro/hooks/commit-push-pr.json" "$KIRO_HOME/hooks/commit-push-pr.json"
+should_skip "hooks/documentation-update-reminder.json" || cp "$REPO_DIR/.kiro/hooks/documentation-update-reminder.json" "$KIRO_HOME/hooks/documentation-update-reminder.json"
+should_skip "hooks/setup-on-session-start.json" || cp "$REPO_DIR/.kiro/hooks/setup-on-session-start.json" "$KIRO_HOME/hooks/setup-on-session-start.json"
 
 # Settings
-should_skip "settings/mcp.json" || ln -sf "$REPO_DIR/.kiro/settings/mcp.json" "$KIRO_HOME/settings/mcp.json"
-should_skip "settings/mcp.local.json.example" || ln -sf "$REPO_DIR/.kiro/settings/mcp.local.json.example" "$KIRO_HOME/settings/mcp.local.json.example"
+should_skip "settings/mcp.json" || cp "$REPO_DIR/.kiro/settings/mcp.json" "$KIRO_HOME/settings/mcp.json"
+should_skip "settings/mcp.local.json.example" || cp "$REPO_DIR/.kiro/settings/mcp.local.json.example" "$KIRO_HOME/settings/mcp.local.json.example"
 
 # Steering
-should_skip "steering/project.md" || ln -sf "$REPO_DIR/.kiro/steering/project.md" "$KIRO_HOME/steering/project.md"
-should_skip "steering/tech.md" || ln -sf "$REPO_DIR/.kiro/steering/tech.md" "$KIRO_HOME/steering/tech.md"
-should_skip "steering/deployment-workflow.md" || ln -sf "$REPO_DIR/.kiro/steering/deployment-workflow.md" "$KIRO_HOME/steering/deployment-workflow.md"
+should_skip "steering/project.md" || cp "$REPO_DIR/.kiro/steering/project.md" "$KIRO_HOME/steering/project.md"
+should_skip "steering/tech.md" || cp "$REPO_DIR/.kiro/steering/tech.md" "$KIRO_HOME/steering/tech.md"
+should_skip "steering/deployment-workflow.md" || cp "$REPO_DIR/.kiro/steering/deployment-workflow.md" "$KIRO_HOME/steering/deployment-workflow.md"
 
 # Language configuration - copy template and customize
 if ! should_skip "steering/language.md"; then
@@ -234,7 +234,7 @@ if ! should_skip "steering/language.md"; then
 fi
 
 # Scripts
-should_skip "scripts/security-check.sh" || ln -sf "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
+should_skip "scripts/security-check.sh" || cp "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
 
 # Set execute permissions on scripts
 chmod +x "$KIRO_HOME/scripts"/*.sh 2>/dev/null || true
