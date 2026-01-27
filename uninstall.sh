@@ -64,13 +64,14 @@ rm -f "$KIRO_HOME/hooks/setup-on-session-start.json" 2>/dev/null && echo "  ✓ 
 
 rm -f "$KIRO_HOME/settings/mcp.json" 2>/dev/null && echo "  ✓ Removed settings/mcp.json" || true
 
-rm -f "$KIRO_HOME/steering/project.md" 2>/dev/null && echo "  ✓ Removed steering/project.md" || true
 rm -f "$KIRO_HOME/steering/tech.md" 2>/dev/null && echo "  ✓ Removed steering/tech.md" || true
 rm -f "$KIRO_HOME/steering/deployment-workflow.md" 2>/dev/null && echo "  ✓ Removed steering/deployment-workflow.md" || true
 rm -f "$KIRO_HOME/steering/security-policies.md" 2>/dev/null && echo "  ✓ Removed steering/security-policies.md" || true
+rm -f "$KIRO_HOME/steering/testing-standards.md" 2>/dev/null && echo "  ✓ Removed steering/testing-standards.md" || true
 rm -f "$KIRO_HOME/steering/language.md" 2>/dev/null && echo "  ✓ Removed steering/language.md" || true
 
 rm -f "$KIRO_HOME/scripts/security-check.sh" 2>/dev/null && echo "  ✓ Removed scripts/security-check.sh" || true
+rm -f "$KIRO_HOME/scripts/disable-pagers.sh" 2>/dev/null && echo "  ✓ Removed scripts/disable-pagers.sh" || true
 
 # Remove repository
 if [ -d "$REPO_DIR" ]; then
