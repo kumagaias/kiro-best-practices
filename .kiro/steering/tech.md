@@ -8,6 +8,12 @@ General best practices applicable to various programming languages and projects.
 
 **Language-specific guides**: Use `#tech-typescript`, `#tech-python`, `#tech-go` in chat to include language-specific practices.
 
+**IMPORTANT - Development Principles**:
+- Always ask users for clarification when requirements are unclear
+- Measure, don't guess - verify assumptions with data and testing
+- Research thoroughly - check documentation, search online, and investigate specifications before implementing
+- Avoid exaggerated expressions like "Perfect!" or "Amazing!" - keep communication professional and factual
+
 ---
 
 ## Essential Commands
