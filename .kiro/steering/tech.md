@@ -13,6 +13,7 @@ General best practices applicable to various programming languages and projects.
 - Always ask users for clarification when requirements are unclear
 - Measure, don't guess - verify assumptions with data and testing
 - Research thoroughly - check documentation, search online, and investigate specifications before implementing
+- Use MCP tools and web search to get current information and verify implementation details
 - Avoid exaggerated expressions like "Perfect!" or "Amazing!" - keep communication professional and factual
 
 **IMPORTANT - File Size Limit**:
