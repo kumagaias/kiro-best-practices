@@ -21,6 +21,11 @@ General best practices applicable to various programming languages and projects.
 - If a file exceeds 500 lines, you MUST split it into smaller, focused modules
 - This applies to all source files, not documentation
 
+**IMPORTANT - Documentation Size Limit**:
+- README.md and other documentation files: Max 200 lines
+- Keep documentation concise and focused
+- Split into multiple files if needed (e.g., README.md, ARCHITECTURE.md, API.md)
+
 ---
 
 ## Essential Commands

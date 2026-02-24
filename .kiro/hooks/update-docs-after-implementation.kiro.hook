@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Update Documentation After Implementation",
+  "description": "Reminds to update README and documentation after completing implementation tasks",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "**Task completed. Please check if the following documentation needs to be updated:**\n\n- README.md (max 200 lines)\n- structure.md (project structure)\n- tech.md (technical details)\n- Other related documentation\n\n**If updates are needed:**\n1. Reflect the changes\n2. Check line limits (README etc. should be within 200 lines)\n3. Split if necessary (ARCHITECTURE.md, API.md, etc.)\n\nLet me know if any documentation needs updating."
+  }
+}
