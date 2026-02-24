@@ -1,6 +1,7 @@
 ---
 inclusion: fileMatch
 fileMatchPattern: '**/*.(ts|tsx|js|jsx)'
+description: TypeScript/JavaScript security practices including authentication, input validation, XSS prevention, and secure coding patterns
 ---
 
 # TypeScript Security Policies

@@ -1,6 +1,7 @@
 ---
 inclusion: fileMatch
 fileMatchPattern: '**/*.(test|spec).(ts|tsx|js|jsx)'
+description: TypeScript/JavaScript testing standards using Vitest, Jest, or similar frameworks with examples and best practices
 ---
 
 # TypeScript Testing Standards

@@ -1,5 +1,6 @@
 ---
 inclusion: always
+description: General technical best practices including code quality, testing, security, performance, and language-specific conventions
 ---
 
 # Common Technical Practices (General)
@@ -13,6 +14,11 @@ General best practices applicable to various programming languages and projects.
 - Measure, don't guess - verify assumptions with data and testing
 - Research thoroughly - check documentation, search online, and investigate specifications before implementing
 - Avoid exaggerated expressions like "Perfect!" or "Amazing!" - keep communication professional and factual
+
+**IMPORTANT - File Size Limit**:
+- Max file size: 500 lines per file
+- If a file exceeds 500 lines, you MUST split it into smaller, focused modules
+- This applies to all source files, not documentation
 
 ---
 
@@ -35,7 +41,7 @@ make clean             # Clean build artifacts
 ### Code Quality
 - Write clear, self-documenting code
 - Keep functions small and focused (< 50 lines)
-- Max file size: 500 lines
+- Max file size: 500 lines (split into smaller modules if exceeded)
 - Handle errors appropriately
 - Follow language-specific conventions
 

@@ -1,6 +1,7 @@
 ---
 inclusion: fileMatch
 fileMatchPattern: '**/*.(ts|tsx|js|jsx)'
+description: TypeScript/JavaScript coding standards including naming conventions, file structure, error handling, and async patterns
 ---
 
 # TypeScript Code Conventions

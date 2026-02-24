@@ -1,5 +1,6 @@
 ---
 inclusion: always
+description: Security best practices including authentication, input validation, sanitization, and vulnerability prevention
 ---
 
 # Security Guidelines
@@ -23,35 +24,22 @@ Security best practices and policies for application development.
 
 ## Authentication & Authorization
 
-### Authentication Requirements
+### Requirements
 
 - Use strong password policies (min 12 characters, complexity requirements)
 - Implement multi-factor authentication (MFA) for sensitive operations
 - Use secure session management
 - Implement account lockout after failed attempts
-- Use secure password hashing (bcrypt, Argon2)
-
-### Authorization
-
+- Use secure password hashing (bcrypt with 12+ rounds, Argon2)
 - Implement role-based access control (RBAC)
 - Validate permissions on every request
-- Use JWT tokens with short expiration times
+- Use JWT tokens with short expiration (15 minutes recommended)
 - Implement refresh token rotation
-- Validate token signatures
-
-### Implementation Guidelines
-
-- Hash passwords with strong algorithms (bcrypt with 12+ rounds, Argon2)
-- Generate JWT tokens with short expiration (15 minutes recommended)
-- Store refresh tokens securely with rotation
-- Implement secure session storage
 - Use HTTPS-only cookies for tokens
 
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
+## Input Validation & Sanitization
 
-## Data Validation
-
-### Input Validation Rules
+### Validation Rules
 
 1. **Validate all inputs**: Never trust user input
 2. **Whitelist approach**: Define allowed values, reject everything else
@@ -59,74 +47,40 @@ Security best practices and policies for application development.
 4. **Length limits**: Enforce maximum lengths for strings
 5. **Format validation**: Use regex for email, phone, etc.
 
-### Validation Best Practices
+### Best Practices
 
 - Use schema validation libraries (Zod, Joi, etc.)
 - Validate email format and length (max 255 chars)
 - Enforce password requirements (min 12 chars)
 - Validate numeric ranges (age, quantities, etc.)
 - Use enums for restricted values (roles, statuses, etc.)
-- Return clear error messages without exposing internals
-
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
-
-## Input Sanitization
 
 ### Sanitization Standards
 
-- **HTML/XSS**: Escape HTML entities, use DOMPurify
-- **SQL Injection**: Use parameterized queries, ORMs
+- **HTML/XSS**: Use HTML sanitization libraries (DOMPurify), escape user input, use CSP headers
+- **SQL Injection**: Always use parameterized queries or ORMs (Prisma, TypeORM, SQLAlchemy)
 - **Command Injection**: Avoid shell commands, validate inputs
 - **Path Traversal**: Validate file paths, use allowlists
-- **LDAP Injection**: Escape special characters
-
-### Sanitization Best Practices
-
-**XSS Prevention:**
-- Use HTML sanitization libraries (DOMPurify, etc.)
-- Allow only safe HTML tags (b, i, em, strong, a)
-- Restrict attributes (href only for links)
-- Escape user input in templates
-- Use Content Security Policy (CSP) headers
-
-**SQL Injection Prevention:**
-- Always use parameterized queries or prepared statements
-- Use ORM frameworks (Prisma, TypeORM, SQLAlchemy, etc.)
-- Never concatenate user input into SQL strings
-- Validate and sanitize all database inputs
-
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Vulnerability Prevention
 
 ### Common Vulnerabilities
 
-1. **SQL Injection**: Use ORMs or parameterized queries
-2. **XSS (Cross-Site Scripting)**: Sanitize output, use CSP headers
-3. **CSRF (Cross-Site Request Forgery)**: Use CSRF tokens
-4. **Insecure Deserialization**: Validate serialized data
-5. **Broken Authentication**: Implement secure session management
-6. **Sensitive Data Exposure**: Encrypt data at rest and in transit
-7. **XML External Entities (XXE)**: Disable XML external entity processing
-8. **Broken Access Control**: Validate permissions on every request
-9. **Security Misconfiguration**: Use secure defaults
-10. **Using Components with Known Vulnerabilities**: Keep dependencies updated
+Refer to [OWASP Top 10](https://owasp.org/www-project-top-ten/) for comprehensive vulnerability list.
+
+**Key vulnerabilities to prevent:**
+- SQL Injection: Use ORMs or parameterized queries
+- XSS: Sanitize output, use CSP headers
+- CSRF: Use CSRF tokens
+- Broken Authentication: Implement secure session management
+- Broken Access Control: Validate permissions on every request
 
 ### Dependency Security
 
-**General Practices:**
 - Regularly scan dependencies for vulnerabilities
 - Keep all dependencies up to date
-- Review security advisories for your ecosystem
-- Use lock files to ensure consistent versions
+- Use dependency scanning tools (npm audit, Snyk, Dependabot)
 - Remove unused dependencies
-- Use tools like Snyk or Dependabot
-
-**Language-specific commands:**
-- **Node.js/npm**: `npm audit`, `npm audit fix`
-- **Python/pip**: `pip-audit`, `safety check`
-- **Ruby/bundler**: `bundle audit`
-- **Go**: `go list -m all | nancy sleuth`
 
 ## Secure Coding Practices
 
@@ -135,8 +89,6 @@ Security best practices and policies for application development.
 - Don't expose stack traces to users
 - Log errors securely (no sensitive data)
 - Use generic error messages for users
-- Implement proper error boundaries
-- Never include credentials or secrets in error messages
 - Log detailed errors server-side only
 - Return appropriate HTTP status codes
 
@@ -145,57 +97,29 @@ Security best practices and policies for application development.
 - ✅ Good: "Service temporarily unavailable" (user-facing)
 - ✅ Good: Log detailed error server-side for debugging
 
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
-
 ### Logging Security
 
 **Best Practices:**
-- Remove sensitive data before logging (passwords, tokens, secrets, API keys)
+- Remove sensitive data before logging (passwords, tokens, API keys)
 - Use structured logging (JSON format)
 - Include log levels (info, warn, error)
-- Log stack traces only in development
 - Implement log rotation and retention policies
-- Secure log storage with appropriate access controls
-- Monitor logs for suspicious activity
 
 **Never log:**
 - Passwords or password hashes
 - Authentication tokens or session IDs
 - API keys or secrets
 - Credit card numbers or PII
-- Internal system paths or configurations
-
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
-
-### Environment Variables
-
-```bash
-# .env.example (commit this)
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
-JWT_SECRET=your-secret-key-here
-API_KEY=your-api-key-here
-
-# .env (never commit this)
-DATABASE_URL=postgresql://prod_user:prod_pass@prod.example.com:5432/prod_db
-JWT_SECRET=actual-secret-key
-API_KEY=actual-api-key
-```
 
 ## Security Headers
-
-### Required Headers
 
 All web applications should implement these security headers:
 
 - **X-Content-Type-Options**: `nosniff` - Prevents MIME type sniffing
 - **X-Frame-Options**: `DENY` or `SAMEORIGIN` - Prevents clickjacking
-- **X-XSS-Protection**: `1; mode=block` - Enables XSS filtering
 - **Strict-Transport-Security**: `max-age=31536000; includeSubDomains` - Enforces HTTPS
 - **Content-Security-Policy**: `default-src 'self'` - Controls resource loading
 - **Referrer-Policy**: `no-referrer` or `strict-origin-when-cross-origin`
-- **Permissions-Policy**: Restrict browser features
-
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
 
 ## Rate Limiting
 
@@ -204,26 +128,17 @@ All web applications should implement these security headers:
 - Implement rate limiting on all public APIs
 - Use stricter limits for authentication endpoints
 - Track by IP address or user ID
-- Return appropriate HTTP 429 (Too Many Requests) status
-- Include Retry-After header in responses
+- Return HTTP 429 (Too Many Requests) with Retry-After header
 
 ### Recommended Limits
 
-**General API endpoints:**
-- 100 requests per 15 minutes per IP
+- **General API**: 100 requests per 15 minutes per IP
+- **Authentication**: 5 login attempts per 15 minutes per IP, implement account lockout
+- **Public endpoints**: 10-20 requests per minute per IP
 
-**Authentication endpoints:**
-- 5 login attempts per 15 minutes per IP
-- Implement account lockout after repeated failures
+---
 
-**Public endpoints:**
-- 10-20 requests per minute per IP
-
-**Language-specific examples**: See #[[file:languages/typescript-security-policies.md]] for TypeScript/JavaScript implementations
-
-## Security Checklist
-
-### Pre-deployment Security Checks
+## Pre-deployment Security Checklist
 
 - [ ] All secrets in environment variables
 - [ ] Input validation on all endpoints
@@ -233,37 +148,11 @@ All web applications should implement these security headers:
 - [ ] Security headers configured
 - [ ] Rate limiting implemented
 - [ ] CORS configured properly
-- [ ] Dependencies updated
-- [ ] Security audit passed
-- [ ] Gitleaks scan passed
+- [ ] Dependencies updated and scanned
 - [ ] No hardcoded credentials
-- [ ] Error messages don't expose internals
-- [ ] Logging doesn't include sensitive data
-
-### Regular Security Maintenance
-
-- Weekly: Check for dependency vulnerabilities
-- Monthly: Review access logs for suspicious activity
-- Quarterly: Security audit and penetration testing
-- Annually: Review and update security policies
-
-## Incident Response
-
-### When Security Incident Occurs
-
-1. **Contain**: Isolate affected systems
-2. **Assess**: Determine scope and impact
-3. **Notify**: Inform stakeholders and users if needed
-4. **Fix**: Patch vulnerability
-5. **Document**: Create postmortem
-6. **Learn**: Update security policies
-
-### Postmortem Template
-
-See #[[file:deployment-workflow.md]] for postmortem structure.
 
 ---
 
 **Related guides:**
-- #[[file:deployment-workflow.md]] - Project standards including postmortem guidelines
+- #[[file:deployment-workflow.md]] - Deployment standards and checklist
 - #[[file:languages/typescript-security-policies.md]] - TypeScript-specific security practices
