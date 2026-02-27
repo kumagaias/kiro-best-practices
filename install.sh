@@ -57,15 +57,8 @@ else
   fi
 fi
 
-# Document language (currently only English available)
-if [ -n "$2" ]; then
-  PROJECT_LANG="$2"
-else
-  PROJECT_LANG="${KIRO_PROJECT_LANG:-English}"
-fi
-
 echo "✓ Agent chat language: $CHAT_LANG"
-echo "✓ Project language: $PROJECT_LANG"
+echo "✓ Project language: English (fixed)"
 echo ""
 
 # Check if ~/.kiro exists
@@ -217,7 +210,7 @@ should_skip "steering/testing-standards.md" || cp "$REPO_DIR/.kiro/steering/test
 
 # Language configuration - copy template and customize
 if ! should_skip "steering/language.md"; then
-  echo "  🌐 Creating language.md with chat: $CHAT_LANG, project: $PROJECT_LANG..."
+  echo "  🌐 Creating language.md with chat: $CHAT_LANG..."
   
   # Copy template
   cp "$REPO_DIR/.kiro/steering/kiro-language.md.example" "$KIRO_HOME/steering/language.md"
@@ -226,11 +219,9 @@ if ! should_skip "steering/language.md"; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
     sed -i '' "s/CHAT_LANGUAGE_PLACEHOLDER/$CHAT_LANG/g" "$KIRO_HOME/steering/language.md"
-    sed -i '' "s/PROJECT_LANGUAGE_PLACEHOLDER/$PROJECT_LANG/g" "$KIRO_HOME/steering/language.md"
   else
     # Linux
     sed -i "s/CHAT_LANGUAGE_PLACEHOLDER/$CHAT_LANG/g" "$KIRO_HOME/steering/language.md"
-    sed -i "s/PROJECT_LANGUAGE_PLACEHOLDER/$PROJECT_LANG/g" "$KIRO_HOME/steering/language.md"
   fi
 fi
 
@@ -238,8 +229,13 @@ fi
 should_skip "scripts/security-check.sh" || cp "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
 should_skip "scripts/disable-pagers.sh" || cp "$REPO_DIR/.kiro/scripts/disable-pagers.sh" "$KIRO_HOME/scripts/disable-pagers.sh"
 
+# Hooks common scripts
+mkdir -p "$KIRO_HOME/hooks/common/scripts"
+should_skip "hooks/common/scripts/sync-spec-translations.sh" || cp "$REPO_DIR/.kiro/hooks/common/scripts/sync-spec-translations.sh" "$KIRO_HOME/hooks/common/scripts/sync-spec-translations.sh"
+
 # Set execute permissions on scripts
 chmod +x "$KIRO_HOME/scripts"/*.sh 2>/dev/null || true
+chmod +x "$KIRO_HOME/hooks/common/scripts"/*.sh 2>/dev/null || true
 
 # Show skipped files
 if [ ${#SKIP_FILES[@]} -gt 0 ]; then
@@ -259,11 +255,11 @@ echo "  ✓ settings/       - MCP configuration templates"
 echo "  ✓ steering/       - Common development guidelines"
 echo "  ✓ scripts/        - Git hooks and utility scripts"
 echo ""
-echo "🌐 Agent chat language: $CHAT_LANG
-📚 Project language: $PROJECT_LANG"
+echo "🌐 Agent chat language: $CHAT_LANG"
 echo ""
 echo "💡 Kiro will automatically use these shared files"
 echo ""
 echo "📚 Update: cd ~/.kiro/kiro-best-practices && git pull"
 echo "🔄 Change language: curl ... | KIRO_CHAT_LANG=Japanese bash"
+echo "🌐 Spec translations: Automatically synced when chat language is not English"
 echo ""
