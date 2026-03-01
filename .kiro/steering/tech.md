@@ -90,13 +90,13 @@ git push origin feat/issue-123-feature
 ---
 
 **For language-specific practices:**
-- #[[file:languages/typescript-code-conventions.md]] - TypeScript coding standards
-- #[[file:languages/typescript-security-policies.md]] - TypeScript security
-- #[[file:languages/typescript-testing-standards.md]] - TypeScript testing
-- #[[file:languages/terraform-code-conventions.md]] - Terraform/IaC standards
-- #[[file:languages/react-native-conventions.md]] - React Native best practices
-- #[[file:languages/python.md]] - Python (coming soon)
-- #[[file:languages/go.md]] - Go (coming soon)
+- #[[file:skills/typescript-code-conventions.md]] - TypeScript coding standards
+- #[[file:skills/typescript-security-policies.md]] - TypeScript security
+- #[[file:skills/typescript-testing-standards.md]] - TypeScript testing
+- #[[file:skills/terraform-code-conventions.md]] - Terraform/IaC standards
+- #[[file:skills/react-native-conventions.md]] - React Native best practices
+- #[[file:skills/python.md]] - Python (coming soon)
+- #[[file:skills/go.md]] - Go (coming soon)
 
 **For specialized topics:**
 - #[[file:security-policies.md]] - Security guidelines

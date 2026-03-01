@@ -181,6 +181,6 @@ Add as needed: `test-e2e`, `test-lint`, `dev`, `build`, `deploy`
 **Related guides:**
 - #[[file:security-policies.md]] - Security guidelines
 - #[[file:testing-standards.md]] - Testing approach and patterns
-- #[[file:languages/typescript-code-conventions.md]] - TypeScript coding standards
-- #[[file:languages/terraform-code-conventions.md]] - Terraform coding standards
-- #[[file:languages/react-native-conventions.md]] - React Native best practices
+- #[[file:skills/typescript-code-conventions.md]] - TypeScript coding standards
+- #[[file:skills/terraform-code-conventions.md]] - Terraform coding standards
+- #[[file:skills/react-native-conventions.md]] - React Native best practices

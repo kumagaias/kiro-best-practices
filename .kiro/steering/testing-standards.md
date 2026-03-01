@@ -79,7 +79,7 @@ make test -- --coverage # With coverage
 
 **For detailed testing patterns and examples:**
 - #[[file:testing-patterns.md]] - Advanced testing patterns and strategies
-- #[[file:languages/typescript-testing-standards.md]] - TypeScript/JavaScript testing
+- #[[file:skills/typescript-testing-standards.md]] - TypeScript/JavaScript testing
 
 **Related guides:**
 - #[[file:deployment-workflow.md]] - Testing requirements

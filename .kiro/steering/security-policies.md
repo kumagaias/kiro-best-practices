@@ -156,5 +156,5 @@ All web applications should implement these security headers:
 **Related guides:**
 - #[[file:deployment-workflow.md]] - Deployment standards and checklist
 - #[[file:testing-standards.md]] - Testing standards
-- #[[file:languages/typescript-security-policies.md]] - TypeScript-specific security practices
-- #[[file:languages/terraform-code-conventions.md]] - Terraform security best practices
+- #[[file:skills/typescript-security-policies.md]] - TypeScript-specific security practices
+- #[[file:skills/terraform-code-conventions.md]] - Terraform security best practices
