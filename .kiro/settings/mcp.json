@@ -66,6 +66,14 @@
       },
       "disabled": false,
       "autoApprove": []
+    },
+    "aws-amplify": {
+      "command": "npx",
+      "args": [
+        "@aws/aws-amplify-mcp"
+      ],
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }
