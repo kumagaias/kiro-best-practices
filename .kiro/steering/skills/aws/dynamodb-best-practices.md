@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: '**/*dynamodb*'
+fileMatchPattern: '**/*dynamodb*,**/*.tf,**/*.tfvars'
 description: DynamoDB best practices for table design, partition keys, and performance optimization
 ---
 

@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: '**/*lambda*'
+fileMatchPattern: '**/*lambda*,**/*.tf,**/*.tfvars'
 description: AWS Lambda best practices for function design, performance, and cost optimization
 ---
 
