@@ -129,5 +129,5 @@ SK: USER#<userId>#CREATED#<timestamp>
 - Use MCP tool `mcp_aws_docs_read_documentation` to fetch latest AWS docs
 
 **Related guides:**
-- #[[file:../security-policies.md]] - Security guidelines
-- #[[file:../skills/terraform-code-conventions.md]] - Infrastructure as Code
+- #[[file:../../security-policies.md]] - Security guidelines
+- #[[file:../terraform-code-conventions.md]] - Infrastructure as Code
