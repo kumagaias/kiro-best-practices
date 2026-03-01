@@ -29,6 +29,17 @@ General project standards applicable to various projects.
 
 All development work must start with a GitHub Issue.
 
+**IMPORTANT**: For new projects, create `.tool-versions` first:
+
+```bash
+# Initialize tool versions (run once per project)
+mise use terraform@latest nodejs@lts python@latest
+# Or: asdf local terraform latest && asdf local nodejs lts && asdf local python latest
+
+# Install tools
+mise install  # or: asdf install
+```
+
 ```bash
 # 1. Create GitHub Issue
 gh issue create --title "Add user authentication" --body "Description..."
