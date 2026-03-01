@@ -72,7 +72,7 @@
       "args": [
         "@aws/aws-amplify-mcp"
       ],
-      "disabled": false,
+      "disabled": true,
       "autoApprove": []
     }
   }
