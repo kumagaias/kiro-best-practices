@@ -79,6 +79,23 @@ if [ -d "$REPO_DIR" ]; then
     exit 1
   fi
   
+  # Check for local changes
+  if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+    echo "⚠️  Local changes detected in $REPO_DIR"
+    echo "   These changes will be lost if you continue."
+    echo ""
+    if [ "$INTERACTIVE" = true ]; then
+      read -p "Continue and discard local changes? (y/N): " -n 1 -r
+      echo ""
+      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "❌ Update cancelled. Please commit or stash your changes first."
+        exit 1
+      fi
+    else
+      echo "⚠️  Non-interactive mode: Discarding local changes..."
+    fi
+  fi
+  
   # Update repository
   git fetch origin
   git reset --hard "origin/$BRANCH"
