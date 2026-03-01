@@ -28,6 +28,38 @@ General best practices applicable to various programming languages and projects.
 
 ---
 
+## Tool Version Management
+
+**IMPORTANT**: Always create `.tool-versions` at project start to lock tool versions.
+
+Use mise or asdf to manage tool versions consistently across projects.
+
+### Initial Setup (per project)
+
+```bash
+# Create .tool-versions with latest stable versions
+mise use terraform@latest nodejs@lts python@latest
+
+# Or with asdf
+asdf local terraform latest
+asdf local nodejs lts
+asdf local python latest
+
+# Install tools
+mise install  # or: asdf install
+```
+
+### Version Selection Guidelines
+
+- **terraform**: Use `@latest` for latest stable version
+- **nodejs**: Use `@lts` for Long Term Support version (recommended for production)
+- **python**: Use `@latest` for latest stable version
+
+**Note**: 
+- Tool versions are captured at project start and committed to `.tool-versions`
+- Use `@lts` for Node.js to ensure stability (not `@latest`)
+- The `.tool-versions` file locks versions for consistent environments across team
+
 ## Essential Commands
 
 ```bash
