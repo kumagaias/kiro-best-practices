@@ -67,12 +67,16 @@
       "disabled": false,
       "autoApprove": []
     },
-    "aws-amplify": {
-      "command": "npx",
+    "aws-mcp": {
+      "command": "uvx",
+      "timeout": 100000,
       "args": [
-        "@aws/aws-amplify-mcp"
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-west-2"
       ],
-      "disabled": true,
+      "disabled": false,
       "autoApprove": []
     }
   }
