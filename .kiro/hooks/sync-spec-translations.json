@@ -1,18 +1,13 @@
 {
   "name": "Sync Spec Translations",
   "version": "1.0.0",
-  "description": "Automatically sync spec document translations when chat language is not English",
+  "description": "Automatically sync spec document translations when spec files are created or updated",
   "when": {
     "type": "fileEdited",
-    "patterns": [
-      ".kiro/specs/**/requirements.md",
-      ".kiro/specs/**/design.md",
-      ".kiro/specs/**/tasks.md",
-      ".kiro/specs/**/bugfix.md"
-    ]
+    "patterns": [".kiro/specs/**/requirements.md", ".kiro/specs/**/design.md", ".kiro/specs/**/tasks.md", ".kiro/specs/**/bugfix.md"]
   },
   "then": {
     "type": "runCommand",
-    "command": "~/.kiro/hooks/common/scripts/sync-spec-translations.sh"
+    "command": "~/.kiro/scripts/sync-spec-translations.sh"
   }
 }

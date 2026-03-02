@@ -113,10 +113,11 @@ echo "📋 Installing shared files to ~/.kiro/..."
 CONFLICTS=()
 for file in hooks/pre-commit-security.json hooks/run-all-tests.json hooks/run-tests.json \
             hooks/commit-push-pr.json hooks/documentation-update-reminder.json hooks/setup-on-session-start.json \
+            hooks/sync-spec-translations.json \
             settings/mcp.json \
             steering/tech.md steering/deployment-workflow.md steering/security-policies.md \
             steering/testing-standards.md steering/language.md \
-            scripts/security-check.sh scripts/disable-pagers.sh; do
+            scripts/security-check.sh scripts/disable-pagers.sh scripts/sync-spec-translations.sh; do
   [ -e "$KIRO_HOME/$file" ] && CONFLICTS+=("$file")
 done
 
@@ -215,6 +216,7 @@ should_skip "hooks/run-tests.json" || cp "$REPO_DIR/.kiro/hooks/run-tests.json" 
 should_skip "hooks/commit-push-pr.json" || cp "$REPO_DIR/.kiro/hooks/commit-push-pr.json" "$KIRO_HOME/hooks/commit-push-pr.json"
 should_skip "hooks/documentation-update-reminder.json" || cp "$REPO_DIR/.kiro/hooks/documentation-update-reminder.json" "$KIRO_HOME/hooks/documentation-update-reminder.json"
 should_skip "hooks/setup-on-session-start.json" || cp "$REPO_DIR/.kiro/hooks/setup-on-session-start.json" "$KIRO_HOME/hooks/setup-on-session-start.json"
+should_skip "hooks/sync-spec-translations.json" || cp "$REPO_DIR/.kiro/hooks/sync-spec-translations.json" "$KIRO_HOME/hooks/sync-spec-translations.json"
 
 # Settings
 should_skip "settings/mcp.json" || cp "$REPO_DIR/.kiro/settings/mcp.json" "$KIRO_HOME/settings/mcp.json"
@@ -245,14 +247,10 @@ fi
 # Scripts
 should_skip "scripts/security-check.sh" || cp "$REPO_DIR/.kiro/scripts/security-check.sh" "$KIRO_HOME/scripts/security-check.sh"
 should_skip "scripts/disable-pagers.sh" || cp "$REPO_DIR/.kiro/scripts/disable-pagers.sh" "$KIRO_HOME/scripts/disable-pagers.sh"
-
-# Hooks common scripts
-mkdir -p "$KIRO_HOME/hooks/common/scripts"
-should_skip "hooks/common/scripts/sync-spec-translations.sh" || cp "$REPO_DIR/.kiro/hooks/common/scripts/sync-spec-translations.sh" "$KIRO_HOME/hooks/common/scripts/sync-spec-translations.sh"
+should_skip "scripts/sync-spec-translations.sh" || cp "$REPO_DIR/.kiro/hooks/common/scripts/sync-spec-translations.sh" "$KIRO_HOME/scripts/sync-spec-translations.sh"
 
 # Set execute permissions on scripts
 chmod +x "$KIRO_HOME/scripts"/*.sh 2>/dev/null || true
-chmod +x "$KIRO_HOME/hooks/common/scripts"/*.sh 2>/dev/null || true
 
 # Show skipped files
 if [ ${#SKIP_FILES[@]} -gt 0 ]; then

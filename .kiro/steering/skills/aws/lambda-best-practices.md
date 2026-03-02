@@ -27,10 +27,19 @@ Comprehensive guide covering function design, performance optimization, and oper
 - Small, focused functions are easier to test and maintain
 - Separate business logic from handler code
 
+**Container Images with ECR:**
+- Use Amazon ECR (Elastic Container Registry) for Lambda container images
+- Container images support up to 10 GB (vs 250 MB for zip packages)
+- Better dependency management and reproducible builds
+- Easier to test locally with same container image
+- Use multi-stage builds to minimize image size
+- Tag images with version numbers for rollback capability
+
 **Minimize Package Size:**
 - Include only necessary dependencies
-- Use Lambda Layers for shared code
+- Use Lambda Layers for shared code (for zip deployments)
 - Smaller packages = faster cold starts
+- For containers: optimize Dockerfile with multi-stage builds
 
 **Environment Variables:**
 - Use for configuration (not secrets)
