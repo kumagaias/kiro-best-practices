@@ -39,6 +39,19 @@ All development work must start with a GitHub Issue.
 
 **IMPORTANT - Initial Project Setup** (before 1st commit):
 
+Run `make setup` to automatically configure your project:
+
+```bash
+make setup
+```
+
+This command will:
+1. Install Git hooks (pre-commit, pre-push)
+2. Install project dependencies
+3. Verify your environment
+
+**Manual Setup** (if `make setup` is not available):
+
 1. Create `.tool-versions`:
 ```bash
 mise use terraform@latest nodejs@lts python@latest
@@ -51,31 +64,34 @@ mise current
 # Expected (as of 2026-03): terraform 1.14+, nodejs 24+, python 3.14+
 ```
 
-2. Setup gitleaks pre-push hook:
+2. Setup Git hooks:
 ```bash
 # Install gitleaks (macOS)
 brew install gitleaks
 
-# Create pre-push hook
-cat > .git/hooks/pre-push << 'EOF'
-#!/bin/sh
-gitleaks protect --staged --verbose
-EOF
-
-chmod +x .git/hooks/pre-push
+# Run setup script
+bash .kiro/scripts/setup-git-hooks.sh
 ```
 
 3. Create Makefile with required commands:
 ```makefile
-.PHONY: help install test test-unit test-security clean
+.PHONY: help setup install test test-unit test-security clean setup-git-hooks pre-commit
 
 help:
 	@echo "Available commands:"
+	@echo "  make setup          - Initial project setup (Git hooks + dependencies)"
 	@echo "  make install        - Install dependencies"
 	@echo "  make test           - Run all tests"
 	@echo "  make test-unit      - Run unit tests"
 	@echo "  make test-security  - Run security checks"
+	@echo "  make pre-commit     - Run pre-commit checks"
 	@echo "  make clean          - Clean build artifacts"
+
+setup: setup-git-hooks install
+	@echo "✅ Project setup complete!"
+
+setup-git-hooks:
+	@bash .kiro/scripts/setup-git-hooks.sh
 
 install:
 	# Add your install commands here
@@ -87,6 +103,13 @@ test-unit:
 
 test-security:
 	# Add security check commands here
+
+pre-commit:
+	@echo "🚀 Running pre-commit checks..."
+	@bash .kiro/scripts/pre-commit-gitleaks.sh || exit 1
+	@bash .kiro/scripts/pre-commit-filesize.sh || exit 1
+	@bash .kiro/scripts/pre-commit-lint.sh || exit 1
+	@echo "✅ All pre-commit checks passed!"
 
 clean:
 	# Add cleanup commands here
@@ -237,6 +260,7 @@ Create postmortems for security incidents, production failures, or critical bugs
 
 ```bash
 make help              # Display available commands
+make setup             # Initial project setup (Git hooks + dependencies)
 make install           # Install dependencies
 make test              # Run all tests (unit + security)
 make test-unit         # Run unit tests only

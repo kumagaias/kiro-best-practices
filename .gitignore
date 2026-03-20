@@ -4,9 +4,6 @@
 # Tool versions (project-specific)
 .tool-versions
 
-# Makefile (project-specific)
-Makefile
-
 # macOS
 .DS_Store
 
