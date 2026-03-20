@@ -1,0 +1,18 @@
+{
+  "name": "Sync Spec Translations",
+  "version": "1.0.0",
+  "description": "Automatically sync spec document translations when chat language is not English",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".kiro/specs/**/requirements.md",
+      ".kiro/specs/**/design.md",
+      ".kiro/specs/**/tasks.md",
+      ".kiro/specs/**/bugfix.md"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "bash ~/.kiro/scripts/sync-spec-translations.sh"
+  }
+}

@@ -1,0 +1,27 @@
+---
+inclusion: always
+---
+
+# Language Configuration
+
+**Agent chat language**: CHAT_LANGUAGE_PLACEHOLDER
+
+## Language Settings
+
+- **Agent chat language**: Language for communication with Kiro AI agent (configurable)
+- **Project language**: English (fixed for all projects)
+
+## Spec Document Translation
+
+When agent chat language is not English, spec documents are created in both languages:
+- `requirements.md` (English) + `requirements_LANGUAGE_CODE.md` (Chat language)
+- `design.md` (English) + `design_LANGUAGE_CODE.md` (Chat language)
+- `tasks.md` (English) + `tasks_LANGUAGE_CODE.md` (Chat language)
+
+Translation is handled automatically by hooks.
+
+## Notes
+
+- Project files (README, Issues, PRs, commits) are always in English
+- Only agent chat and spec documents use the configured chat language
+- Global configuration (~/.kiro/) is always in English

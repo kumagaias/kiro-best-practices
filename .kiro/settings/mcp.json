@@ -3,10 +3,14 @@
   "mcpServers": {
     "fetch": {
       "command": "uvx",
-      "args": ["mcp-server-fetch"],
+      "args": [
+        "mcp-server-fetch"
+      ],
       "env": {},
       "disabled": false,
-      "autoApprove": ["fetch"]
+      "autoApprove": [
+        "fetch"
+      ]
     },
     "github": {
       "command": "sh",
@@ -37,9 +41,69 @@
         "get_pull_request_reviews",
         "update_issue",
         "get_pull_request_files",
-        "create_pull_request_review"
+        "create_pull_request_review",
+        "get_file_contents"
+      ]
+    },
+    "aws-docs": {
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "aws-terraform": {
+      "command": "uvx",
+      "args": [
+        "awslabs.terraform-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "aws-mcp": {
+      "command": "uvx",
+      "timeout": 100000,
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-west-2"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "aws___call_aws",
+        "aws___search_documentation",
+        "aws___read_documentation"
+      ]
+    },
+    "gcloud": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@google-cloud/gcloud-mcp"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "bedrock-advisor": {
+      "command": "node",
+      "args": [
+        "~/.kiro/kiro-best-practices/mcp/bedrock-advisor/dist/index.js"
+      ],
+      "env": {
+        "AWS_REGION": "us-west-2"
+      },
+      "disabled": true,
+      "autoApprove": [
+        "ask_advisor"
       ]
     }
   }
 }
-

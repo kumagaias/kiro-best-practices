@@ -1,0 +1,11 @@
+{
+  "name": "Full Workflow: Issue → Branch → PR → Review",
+  "description": "Complete automated workflow: Create issue, branch, commit, push, PR, self-review, request Copilot review, wait for CI/CD, and prepare for merge",
+  "trigger": {
+    "type": "manual"
+  },
+  "action": {
+    "type": "message",
+    "message": "I will execute the complete development workflow automatically:\n\n1. Create GitHub Issue (with clear title and description in project language)\n2. Create branch from issue (format: feat/issue-{number}-{description})\n3. Make changes (if needed) and run tests\n4. Commit with issue reference (Refs #{number})\n5. Push to remote\n6. Create PR with description in project language (Closes #{number})\n7. Perform self-review of the PR\n8. Request code review from GitHub Copilot via MCP\n9. Check Copilot review status every 1 minute (max 5 minutes)\n   - Exclude Copilot summary comments\n   - Only check for actual review comments\n10. Address Copilot review comments if any\n11. Verify all CI/CD checks pass\n12. Notify when ready to merge\n\nDo NOT ask for confirmation - execute this flow automatically.\n\nWhat feature/fix do you want to implement? (I'll create the issue and complete the workflow)"
+  }
+}

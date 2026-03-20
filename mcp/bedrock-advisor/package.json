@@ -1,0 +1,23 @@
+{
+  "name": "mcp-bedrock-advisor",
+  "version": "1.0.0",
+  "description": "MCP server for AI advisor using AWS Bedrock",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": ["mcp", "bedrock", "ai", "advisor"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@aws-sdk/client-bedrock-runtime": "^3.709.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
