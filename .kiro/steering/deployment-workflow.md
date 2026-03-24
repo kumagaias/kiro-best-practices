@@ -229,11 +229,54 @@ Use `issue-{number}-{description}.md` format to prevent conflicts:
 
 ## Deployment
 
+### Deployment Script Standards
+
+**IMPORTANT - Makefile Integration:**
+- All deployment scripts MUST be executable via Makefile
+- Use `make deploy-dev`, `make deploy-stag`, `make deploy-prod` commands
+- Never use interactive commands (pipes with `head`, `tail`, `less`, `more`, etc.)
+- Interactive commands will block execution in non-interactive environments
+
+**Script Requirements:**
+- Non-interactive: No user prompts or confirmations
+- Idempotent: Safe to run multiple times
+- Error handling: Exit on errors (`set -e`)
+- Logging: Clear output for debugging
+- Environment-specific: Separate scripts or parameters for dev/stag/prod
+
+**Example Makefile targets:**
+```makefile
+.PHONY: deploy-dev deploy-stag deploy-prod
+
+deploy-dev:
+	@bash scripts/deploy.sh dev
+
+deploy-stag:
+	@bash scripts/deploy.sh stag
+
+deploy-prod:
+	@bash scripts/deploy.sh prod
+```
+
+**❌ Prohibited in deployment scripts:**
+- Interactive commands: `head`, `tail`, `less`, `more`, `vim`, `nano`
+- User prompts: `read -p`, confirmation dialogs
+- Pipes to pagers: `| less`, `| more`
+- Commands that wait for input
+
+**✅ Recommended:**
+- Direct output: `echo`, `cat` (without pipes)
+- Logging to files: `>> deploy.log`
+- Exit codes for error handling
+- Environment variables for configuration
+
 ### Pre-deployment Checklist
 - [ ] All tests pass
 - [ ] Security checks pass
 - [ ] Documentation updated
 - [ ] Code reviewed
+- [ ] Deployment script is non-interactive
+- [ ] Makefile targets configured
 
 ### Deployment Flow
 1. Run all tests
