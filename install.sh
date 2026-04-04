@@ -13,7 +13,7 @@ KIRO_HOME="$HOME/.kiro"
 REPO_DIR="$KIRO_HOME/kiro-best-practices"
 
 # Check if environment variables are set (non-interactive mode)
-if [ -n "$ENABLE_BEDROCK" ] || [ -n "$KIRO_CHAT_LANG" ]; then
+if [ -n "$KIRO_CHAT_LANG" ]; then
   INTERACTIVE=false
 elif [ -t 0 ]; then
   INTERACTIVE=true
@@ -23,26 +23,6 @@ fi
 
 echo "🚀 Kiro Best Practices Installer"
 echo "================================="
-echo ""
-
-# Bedrock Advisor option
-if [ "$INTERACTIVE" = true ]; then
-  echo "🤖 Enable Bedrock Advisor (requires AWS account)?"
-  echo "  AI advisor for debugging and problem-solving"
-  echo ""
-  read -p "Enable? (y/N): " -n 1 -r
-  echo ""
-  
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    ENABLE_BEDROCK="true"
-  else
-    ENABLE_BEDROCK="false"
-  fi
-else
-  ENABLE_BEDROCK="${ENABLE_BEDROCK:-false}"
-fi
-
-echo "✓ Bedrock Advisor: $ENABLE_BEDROCK"
 echo ""
 
 # Language selection
@@ -168,28 +148,11 @@ while IFS= read -r -d '' file; do
   create_symlink "$file" "$KIRO_HOME/$rel_path"
 done < <(find "$REPO_DIR/.kiro/hooks" -maxdepth 1 -name "*.json" -print0 2>/dev/null || true)
 
-# Symlink settings (JSON files) - except mcp.json which needs customization
+# Symlink settings (all JSON files)
 echo "  🔗 Linking settings..."
 while IFS= read -r -d '' file; do
   rel_path="${file#$REPO_DIR/.kiro/}"
-  basename=$(basename "$file")
-  
-  if [ "$basename" = "mcp.json" ]; then
-    # Copy mcp.json and customize
-    cp "$file" "$KIRO_HOME/$rel_path"
-    
-    # Enable Bedrock Advisor if requested
-    if [ "$ENABLE_BEDROCK" = "true" ]; then
-      if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' '/"bedrock-advisor": {/,/"disabled": true/ s/"disabled": true/"disabled": false/' "$KIRO_HOME/$rel_path"
-      else
-        sed -i '/"bedrock-advisor": {/,/"disabled": true/ s/"disabled": true/"disabled": false/' "$KIRO_HOME/$rel_path"
-      fi
-    fi
-    echo "  ✓ Copied and customized mcp.json"
-  else
-    create_symlink "$file" "$KIRO_HOME/$rel_path"
-  fi
+  create_symlink "$file" "$KIRO_HOME/$rel_path"
 done < <(find "$REPO_DIR/.kiro/settings" -maxdepth 1 -name "*.json" -print0 2>/dev/null || true)
 
 # Symlink steering (MD files, excluding language template)
@@ -239,16 +202,15 @@ echo "✅ Installation complete!"
 echo ""
 echo "📋 Installed to ~/.kiro/ (via symlinks):"
 echo "  ✓ hooks/          - Agent hooks (symlinked)"
-echo "  ✓ settings/       - MCP configuration (mcp.json copied, others symlinked)"
+echo "  ✓ settings/       - MCP configuration (symlinked)"
 echo "  ✓ steering/       - Development guidelines (symlinked)"
 echo "  ✓ scripts/        - Utility scripts (symlinked)"
 echo "  ✓ agents/         - Agent configurations (symlinked)"
 echo ""
 echo "🌐 Agent chat language: $CHAT_LANG"
-echo "🤖 Bedrock Advisor: $ENABLE_BEDROCK"
 echo ""
-echo "💡 Files are symlinked - updates to repository will auto-reflect"
+echo "💡 All files are symlinked - git pull auto-reflects updates"
 echo ""
 echo "📚 Update: cd ~/.kiro/kiro-best-practices && git pull"
-echo "🔄 Reinstall: curl ... | bash (to update language/bedrock settings)"
+echo "🔄 Reinstall: curl ... | bash (to update language settings)"
 echo ""

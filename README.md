@@ -18,24 +18,11 @@ curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/
 
 **Configuration Options:**
 - `KIRO_CHAT_LANG`: Agent chat language (default: English)
-- `ENABLE_BEDROCK`: Enable Bedrock Advisor (default: false, requires AWS account)
 
 To use Japanese for agent chat:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | KIRO_CHAT_LANG=Japanese bash
-```
-
-To enable Bedrock Advisor (requires AWS account):
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | ENABLE_BEDROCK=true bash
-```
-
-Combine options:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/kumagaias/kiro-best-practices/main/install.sh | KIRO_CHAT_LANG=Japanese ENABLE_BEDROCK=true bash
 ```
 
 **Note**: Project language is fixed to English for all projects (README, Issues, PRs, commits).
@@ -48,7 +35,17 @@ To update to the latest version:
 cd ~/.kiro/kiro-best-practices && git pull
 ```
 
-Files are symlinked, so updates automatically reflect in `~/.kiro/`. Only `mcp.json` and `language.md` need reinstallation if you want to change settings.
+All files are symlinked, so updates automatically reflect in `~/.kiro/`. Only `language.md` needs reinstallation if you want to change the chat language.
+
+## Bedrock Advisor
+
+Bedrock Advisor is disabled by default. To enable it (requires AWS account), edit:
+
+```bash
+# Edit the repository file directly
+vim ~/.kiro/kiro-best-practices/.kiro/settings/mcp.json
+# Set "disabled": false for the bedrock-advisor entry
+```
 
 ## Customization
 
@@ -62,7 +59,7 @@ Files are symlinked, so updates automatically reflect in `~/.kiro/`. Only `mcp.j
 **Best Practices:**
 - Keep common standards in global configuration
 - Customize project-specific settings in `.kiro/` within each project
-- Don't modify `~/.kiro/` directly - it will be overwritten on update
+- Don't modify `~/.kiro/` directly - symlinks point to the repository
 
 ### What to Customize Where
 
@@ -104,15 +101,17 @@ Note: This will NOT remove project-specific `.kiro/` directories.
 │       ├── settings/
 │       ├── steering/
 │       ├── scripts/
+│       ├── agents/
 │       ├── templates/       # Templates (not symlinked)
 │       └── docs/            # Documentation (not symlinked)
-├── hooks/          # Symlinked to kiro-best-practices/.kiro/hooks/*.json
-├── settings/       # mcp.json copied (customized), others symlinked
-├── steering/       # language.md copied (customized), others symlinked
-└── scripts/        # Symlinked to kiro-best-practices/.kiro/scripts/*.sh
+├── hooks/          # Symlinked
+├── settings/       # Symlinked (including mcp.json)
+├── steering/       # language.md copied, others symlinked
+├── scripts/        # Symlinked
+└── agents/         # Symlinked
 ```
 
-**Note**: Files are symlinked for automatic updates via `git pull`. Only `mcp.json` and `language.md` are copied for customization.
+**Note**: All files are symlinked for automatic updates via `git pull`. Only `language.md` is copied for customization.
 
 ## License
 
