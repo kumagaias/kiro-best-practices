@@ -113,7 +113,13 @@ if [ -d "$REPO_DIR" ]; then
   fi
   
   git fetch origin
-  git reset --hard "origin/$BRANCH"
+  # If KIRO_BRANCH is explicitly set, switch to it; otherwise stay on current branch
+  if [ -n "$KIRO_BRANCH" ]; then
+    git reset --hard "origin/$BRANCH"
+  else
+    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    git reset --hard "origin/$CURRENT_BRANCH"
+  fi
   echo "✅ Repository updated to latest version"
 else
   echo "📦 Cloning repository..."
@@ -130,6 +136,7 @@ mkdir -p "$KIRO_HOME/hooks"
 mkdir -p "$KIRO_HOME/settings"
 mkdir -p "$KIRO_HOME/steering"
 mkdir -p "$KIRO_HOME/scripts"
+mkdir -p "$KIRO_HOME/agents"
 
 # Create steering subdirectories
 if [ -d "$REPO_DIR/.kiro/steering" ]; then
@@ -220,6 +227,13 @@ if [ -f "$REPO_DIR/.kiro/hooks/common/scripts/sync-spec-translations.sh" ]; then
   create_symlink "$REPO_DIR/.kiro/hooks/common/scripts/sync-spec-translations.sh" "$KIRO_HOME/scripts/sync-spec-translations.sh"
 fi
 
+# Symlink agents (JSON files)
+echo "  🔗 Linking agents..."
+while IFS= read -r -d '' file; do
+  rel_path="${file#$REPO_DIR/.kiro/}"
+  create_symlink "$file" "$KIRO_HOME/$rel_path"
+done < <(find "$REPO_DIR/.kiro/agents" -maxdepth 1 -name "*.json" -print0 2>/dev/null || true)
+
 echo ""
 echo "✅ Installation complete!"
 echo ""
@@ -228,6 +242,7 @@ echo "  ✓ hooks/          - Agent hooks (symlinked)"
 echo "  ✓ settings/       - MCP configuration (mcp.json copied, others symlinked)"
 echo "  ✓ steering/       - Development guidelines (symlinked)"
 echo "  ✓ scripts/        - Utility scripts (symlinked)"
+echo "  ✓ agents/         - Agent configurations (symlinked)"
 echo ""
 echo "🌐 Agent chat language: $CHAT_LANG"
 echo "🤖 Bedrock Advisor: $ENABLE_BEDROCK"

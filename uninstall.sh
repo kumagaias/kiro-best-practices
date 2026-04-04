@@ -32,8 +32,7 @@ echo "  - ~/.kiro/hooks/"
 echo "  - ~/.kiro/settings/"
 echo "  - ~/.kiro/steering/"
 echo "  - ~/.kiro/scripts/"
-echo "  - ~/.kiro/templates/"
-echo "  - ~/.kiro/docs/"
+echo "  - ~/.kiro/agents/"
 echo ""
 echo "⚠️  Your project-specific .kiro/ directories will NOT be affected."
 echo ""
@@ -55,11 +54,12 @@ echo ""
 echo "🗑️  Removing files and symlinks..."
 
 # Remove all symlinks and files in known directories
-for dir in hooks settings steering scripts; do
+for dir in hooks settings steering scripts agents; do
   if [ -d "$KIRO_HOME/$dir" ]; then
     echo "  📁 Cleaning $dir/..."
-    find "$KIRO_HOME/$dir" -type l -exec rm -f {} \; -exec echo "  ✓ Removed symlink: {}" \;
-    find "$KIRO_HOME/$dir" -type f -exec rm -f {} \; -exec echo "  ✓ Removed file: {}" \;
+    find "$KIRO_HOME/$dir" -type l -exec rm -f {} \;
+    find "$KIRO_HOME/$dir" -type f -exec rm -f {} \;
+    echo "  ✓ Cleaned $dir/"
   fi
 done
 
@@ -70,10 +70,9 @@ if [ -d "$REPO_DIR" ]; then
 fi
 
 # Remove empty directories
-rmdir "$KIRO_HOME/hooks" 2>/dev/null && echo "  ✓ Removed hooks directory" || true
-rmdir "$KIRO_HOME/settings" 2>/dev/null && echo "  ✓ Removed settings directory" || true
-rmdir "$KIRO_HOME/steering" 2>/dev/null && echo "  ✓ Removed steering directory" || true
-rmdir "$KIRO_HOME/scripts" 2>/dev/null && echo "  ✓ Removed scripts directory" || true
+for dir in hooks settings steering scripts agents; do
+  rmdir "$KIRO_HOME/$dir" 2>/dev/null && echo "  ✓ Removed $dir directory" || true
+done
 
 echo ""
 echo "✅ Uninstallation complete!"
