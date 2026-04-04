@@ -113,7 +113,13 @@ if [ -d "$REPO_DIR" ]; then
   fi
   
   git fetch origin
-  git reset --hard "origin/$BRANCH"
+  # If KIRO_BRANCH is explicitly set, switch to it; otherwise stay on current branch
+  if [ -n "$KIRO_BRANCH" ]; then
+    git reset --hard "origin/$BRANCH"
+  else
+    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    git reset --hard "origin/$CURRENT_BRANCH"
+  fi
   echo "✅ Repository updated to latest version"
 else
   echo "📦 Cloning repository..."
