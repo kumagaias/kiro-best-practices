@@ -42,7 +42,15 @@
         "update_issue",
         "get_pull_request_files",
         "create_pull_request_review",
-        "get_file_contents"
+        "get_file_contents",
+        "push_files",
+        "create_branch",
+        "create_or_update_file",
+        "fork_repository",
+        "create_repository",
+        "get_pull_request_status",
+        "update_pull_request_branch",
+        "list_issues"
       ]
     },
     "aws-docs": {
@@ -54,7 +62,12 @@
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "search_documentation",
+        "read_documentation",
+        "read_sections",
+        "recommend"
+      ]
     },
     "aws-terraform": {
       "command": "uvx",
@@ -65,7 +78,14 @@
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "SearchAwsProviderDocs",
+        "SearchAwsccProviderDocs",
+        "SearchSpecificAwsIaModules",
+        "SearchUserProvidedModule",
+        "ExecuteTerraformCommand",
+        "RunCheckovScan"
+      ]
     },
     "aws-mcp": {
       "command": "uvx",
@@ -80,7 +100,12 @@
       "autoApprove": [
         "aws___call_aws",
         "aws___search_documentation",
-        "aws___read_documentation"
+        "aws___read_documentation",
+        "aws___list_regions",
+        "aws___get_regional_availability",
+        "aws___suggest_aws_commands",
+        "aws___recommend",
+        "aws___retrieve_agent_sop"
       ]
     },
     "gcloud": {
@@ -90,7 +115,9 @@
         "@google-cloud/gcloud-mcp"
       ],
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "run_gcloud_command"
+      ]
     },
     "bedrock-advisor": {
       "command": "node",
